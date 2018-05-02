@@ -1,4 +1,5 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
+﻿using CropMonitoring.Downloaders;
+using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace CropMonitoring
 {
     /// <summary>
@@ -21,9 +23,11 @@ namespace CropMonitoring
     /// </summary>
     public partial class MainWindow : ModernWindow
     {
+
         public MainWindow()
         {
             InitializeComponent();
+            
         }
     }
 }

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Projects\CropMonitoring\CropMonitoring\obj\Debug\
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\
 CropMonitoring
 none
 false
 DEBUG;TRACE
-D:\Projects\CropMonitoring\CropMonitoring\App.xaml
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\App.xaml
 61262676084
 
-9-2043426050
-131921832356
+11-1785563107
+131989368159
 MainWindow.xaml;Pages\BasicPage.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\Home.xaml;Pages\SettingsPage.xaml;
 
 False

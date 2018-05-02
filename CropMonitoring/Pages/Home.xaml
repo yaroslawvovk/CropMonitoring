@@ -4,13 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="800" d:DesignWidth="800">
     <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="TODO: add content" />
- 
-            </StackPanel>
-        </ScrollViewer>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <Button Grid.Column="0" Grid.Row="0" Content="ClickMe" Height="40" Click="Button_Click" />
+
+        <ProgressBar x:Name="ProgressBar" Grid.Column="1"  Grid.Row="0"  VerticalAlignment="Top" Height="20" Minimum="0" Maximum="100" Value="0"  />
+        <DataGrid x:Name="DataGridXaml"  Grid.Column="1"  Grid.Row="0" Margin="0,30,0,0">
+
+            <!--<DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    
+                    <Setter Property="Background" Value="Turquoise"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="BorderThickness" Value="1,2,2,2"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                </Style>
+                
+                
+            </DataGrid.Resources>-->
+            
+
+            <!--<DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="1*" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1*"/>
+                <DataGridTextColumn Header="Job" Binding="{Binding Job}" Width="1*"/>
+              
+            </DataGrid.Columns>-->
+            
+            
+            
+        </DataGrid>
+
+
+
     </Grid>
 </UserControl>
