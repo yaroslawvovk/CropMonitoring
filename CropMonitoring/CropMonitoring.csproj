@@ -57,6 +57,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\InitialComboBox.cs" />
     <Compile Include="Model\VHIDataPercentage.cs" />
     <Compile Include="Model\VHIDataPercentageContext.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />

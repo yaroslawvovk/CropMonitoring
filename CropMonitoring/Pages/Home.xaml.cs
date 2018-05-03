@@ -28,16 +28,21 @@ namespace CropMonitoring.Pages
             InitializeComponent();
 
             this.DataContext = new HomeViewModel();
-            //this.DataGridXaml.ItemsSource = 
+            ObjectDataProvider o = new ObjectDataProvider();
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void Download_Click(object sender, RoutedEventArgs e)
         {
             Loader load = new VHIDataLoader(ProgressBar);
             Loader load2 = new VHIPercentageLoader(ProgressBar);
-            await load.DownloadAndSaveData("Piska", "1");
-            await load2.DownloadAndSaveData("Piska", "1");
+
+
+            string _key = comBoxAreas.SelectedValue.ToString();
+            string _value = comBoxAreas.Text;
+            await load.DownloadAndSaveData(_value, _key);
+            await load2.DownloadAndSaveData(_value, _key);
         }
     }
+   
 
 }

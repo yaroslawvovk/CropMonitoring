@@ -25,7 +25,6 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\CropMonitorin
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\CropMonitoring.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\FirstFloor.ModernUI.dll
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\FirstFloor.ModernUI.xml
-D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\MainWindow.baml
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\BasicPage.baml
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\Settings\About.baml
@@ -44,3 +43,5 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitorin
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.g.resources
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.exe
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.pdb
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring_MarkupCompile.lref
