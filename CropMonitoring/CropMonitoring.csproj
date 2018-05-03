@@ -57,12 +57,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\VHIDataPercentage.cs" />
+    <Compile Include="Model\VHIDataPercentageContext.cs" />
+    <Compile Include="ViewModel\HomeViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Downloaders\Loader.cs" />
     <Compile Include="Downloaders\VHIDataLoader.cs" />
+    <Compile Include="Downloaders\VHIPercentageLoader.cs" />
+    <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -75,6 +81,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Model\VHIData.cs" />
+    <Compile Include="Model\VHIDataContext.cs" />
     <Compile Include="Pages\BasicPage.xaml.cs">
       <DependentUpon>BasicPage.xaml</DependentUpon>
     </Compile>

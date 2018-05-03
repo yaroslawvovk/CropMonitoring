@@ -22,7 +22,7 @@ namespace CropMonitoring.Pages
     {
         public BasicPage()
         {
-            InitializeComponent();
+            InitializeComponent();       
         }
     }
 }

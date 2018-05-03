@@ -11,12 +11,12 @@ using System.Windows.Threading;
 
 namespace CropMonitoring.Downloaders
 {
-    class VHIDataLoader : Loader
+    class VHIPercentageLoader: Loader
     {
-
         private ProgressBar pbar;
-        private const string partTypeData = "&year1=1981&year2=2018&type=Mean";
-        public VHIDataLoader(ProgressBar pbar)
+        private const string partTypeData = "&year1=1981&year2=2018&type=VHI_Parea";
+
+        public VHIPercentageLoader(ProgressBar pbar)
         {
             this.pbar = pbar;
         }
@@ -32,10 +32,10 @@ namespace CropMonitoring.Downloaders
 
         public override Task DownloadAndSaveData(string FileName, string ProvinceId)
         {
-            int count = 0;           
+            int count = 0;
             return Task.Factory.StartNew(() =>
             {
-                StreamWriter sw = new StreamWriter(FileName + ".txt");
+                StreamWriter sw = new StreamWriter(FileName + "Percentage.txt");
 
                 Stream stream = Download(ProvinceId);
 
@@ -63,7 +63,7 @@ namespace CropMonitoring.Downloaders
 
                     }
 
-                    //MessageBox.Show("Дані провінції " + FileName + " завантажено!");
+                    MessageBox.Show("Data of region " + FileName + " has been downloaded!");
 
                     streamReader.Close();
                     sw.Close();
@@ -72,13 +72,11 @@ namespace CropMonitoring.Downloaders
 
                 catch (Exception r)
                 {
-                     MessageBox.Show(r.Message);
+                    MessageBox.Show(r.Message);
                 }
             }
             );
         }
-
-
 
     }
 }

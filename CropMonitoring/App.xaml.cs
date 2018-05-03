@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CropMonitoring.Pages;
+using CropMonitoring.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,6 @@ namespace CropMonitoring
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

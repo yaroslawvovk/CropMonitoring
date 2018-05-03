@@ -1,4 +1,5 @@
 ﻿using CropMonitoring.Downloaders;
+using CropMonitoring.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,74 +27,17 @@ namespace CropMonitoring.Pages
         {
             InitializeComponent();
 
-            //Emp emp = new Emp() {Id=1,Name="John", Job = "Xuy" };
-
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-            //DataGridXaml.Items.Add(emp);
-
-            DataGridXaml.ItemsSource = Customer.GetCustomerList();
-            
-
+            this.DataContext = new HomeViewModel();
+            //this.DataGridXaml.ItemsSource = 
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             Loader load = new VHIDataLoader(ProgressBar);
-            await load.DownloadAndSaveData("Piska3", "11");
+            Loader load2 = new VHIPercentageLoader(ProgressBar);
+            await load.DownloadAndSaveData("Piska", "1");
+            await load2.DownloadAndSaveData("Piska", "1");
         }
     }
-
-    class Emp
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Job { get; set; }
-    }
-    public enum OrderStatus
-    {
-        InProgress, Delivered
-    }
-
-    public class Customer
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public bool IsMember { get; set; }
-        public OrderStatus Status { get; set; }
-
-        public static ObservableCollection<Customer> GetCustomerList()
-        {
-            ObservableCollection<Customer> collection = new ObservableCollection<Customer>();
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            collection.Add(new Customer() { FirstName = "Jhon", LastName = "Doe", Email = "jhon.doe@mail.com", IsMember = true, Status = OrderStatus.InProgress });
-            return collection;
-        }
-    }
-
 
 }
