@@ -45,3 +45,4 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitorin
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring_MarkupCompile.lref
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache

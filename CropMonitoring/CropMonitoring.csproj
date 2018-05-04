@@ -57,7 +57,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataWorkers\VHIDataWorker.cs" />
     <Compile Include="Helpers\InitialComboBox.cs" />
+    <Compile Include="Model\Extremums.cs" />
     <Compile Include="Model\VHIDataPercentage.cs" />
     <Compile Include="Model\VHIDataPercentageContext.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />

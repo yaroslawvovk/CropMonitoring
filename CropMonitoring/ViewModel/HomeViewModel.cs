@@ -1,4 +1,5 @@
-﻿using CropMonitoring.Infrastructure;
+﻿using CropMonitoring.DataWorkers;
+using CropMonitoring.Infrastructure;
 using CropMonitoring.Model;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace CropMonitoring.ViewModel
                 _vhiData = value;
             }
         }
+
+
         
 
         RelayCommand _getVHIDataCommand;
@@ -76,6 +79,60 @@ namespace CropMonitoring.ViewModel
             {
                 _vhiDataPercentage = value;
             }
+        }
+
+        Extremums _extremums;
+        public Extremums Extremums
+        {
+            get
+            {
+                if (_extremums == null)
+                    return new Extremums() { _maxExt = 0, _minExt = 0 };
+                return _extremums;
+
+            }
+            set
+            {
+                _extremums = value;
+            }
+
+        }
+
+        RelayCommand _getExtremumCommand;
+        public ICommand GetExtremum
+        {
+            get
+            {
+                if (_getExtremumCommand == null)
+                    _getExtremumCommand = new RelayCommand(ExecuteGetExtremumCommand, CanExecuteGetExtremumCommand);
+                return _getExtremumCommand;
+            }
+        }
+        public void ExecuteGetExtremumCommand(object parameter)
+        {
+            VHIDataWorker _dataWorker = new VHIDataWorker();
+            if (VHIData.Count == 0)
+                return;
+
+            try
+            {
+                int year = Convert.ToInt32(parameter);
+                if(year>=1981&&year<=2018)
+                Extremums = _dataWorker.GetExtremums(year, VHIData);
+            }
+            catch(Exception)
+            {
+
+            }
+            
+            
+            OnPropertyChanged("Extremums");
+        }
+        public bool CanExecuteGetExtremumCommand(object parameter)
+        {
+            if (string.IsNullOrEmpty((string)parameter))
+                return false;
+            return true;
         }
 
 
