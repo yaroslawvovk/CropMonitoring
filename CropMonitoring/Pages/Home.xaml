@@ -4,12 +4,49 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CropMonitoring.Helpers"
+             xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800"   
              >
 
+    <!-- Resources -->
     <UserControl.Resources>
         <ObjectDataProvider x:Key="Choices" ObjectType="{x:Type local:InitialComboBox}" MethodName="GetProvinces"/>
+        <!-- TextBox Placeholder -->
+        <Style x:Key="placeHolder" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <TextBox Text="{Binding Path=Text,
+                                                RelativeSource={RelativeSource TemplatedParent}, 
+                                                Mode=TwoWay,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="textSource" 
+                                 Background="Transparent" 
+                                 Panel.ZIndex="2" />
+                            <TextBox Text="{TemplateBinding Tag}" Background="{TemplateBinding Background}" Panel.ZIndex="1">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
     </UserControl.Resources>
 
     <Grid  Style="{StaticResource ContentRoot}">
@@ -50,7 +87,7 @@
             <GroupBox Header="Extremum for year" Margin="10" VerticalAlignment="Stretch"  Grid.Column="0" Grid.Row="1">
                 <StackPanel>
                     <StackPanel >
-                        <TextBox Name="txtYear"  />
+                        <TextBox Name="txtYear" Style="{StaticResource placeHolder}" Tag="Рік" />
                         <Button Name="btnGetExtremum"  Content="Get Extremums" VerticalAlignment="Top" Margin="0,10" Height="30" 
                           Command="{Binding GetExtremum}"
                         CommandParameter="{Binding Text, ElementName=txtYear}" />
@@ -66,9 +103,7 @@
                             <Label Grid.Column="2" Name="minExtLabel"  Content="Min VHI ="  HorizontalAlignment="Center"/>
                             <Label Grid.Column="3" Name="minExt"  Content="{Binding Extremums._minExt}"  HorizontalAlignment="Center" />
                         </Grid>
-                            
-                          
-                      
+                                                
                     </StackPanel>
 
 
@@ -76,13 +111,87 @@
                 </StackPanel>
             </GroupBox>
 
-        </Grid>
-        
-        
-        
-        
 
-        
+
+            <!--Plot Controls -->
+
+            <GroupBox Header="Графік порівняння" Margin="10" VerticalAlignment="Top"  Grid.Column="1" Grid.Row="0" >
+                <Grid Grid.Column="1" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" >
+                        <TextBox Name="txtYearPlot" Style="{StaticResource placeHolder}" Tag="Рік1" />
+                        <Button Name="btnPlot"  Content="Серія1" VerticalAlignment="Top"  Height="30"
+                        Command="{Binding MakePlot}"
+                        CommandParameter="{Binding Text, ElementName=txtYearPlot}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Name="txtYearPlot2" Style="{StaticResource placeHolder}" Tag="Рік2" />
+                        <Button Name="btnPlot2"  Content="Серія2" VerticalAlignment="Top"  Height="30"
+                        Command="{Binding MakePlot2}"
+                        CommandParameter="{Binding Text, ElementName=txtYearPlot2}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
+                        <Button Name="btnClear"  Content="Очистити" VerticalAlignment="Top"  Height="30"
+                        Command="{Binding ClearPlot}"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+
+            <GroupBox Header="Роки з екстемальними посухами" Margin="10" VerticalAlignment="Stretch"  Grid.Column="1" Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.25*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Name="txtPercentDrought" Style="{StaticResource placeHolder}" Tag="0% - 100%" Margin="5,0"/>
+                        <Button Grid.Column="1" Name="btnGetDrought" Content="Дані" />
+                        <CheckBox Grid.Column="2" Margin="5,0"/>
+                        
+                    </Grid>
+
+                </Grid>
+            </GroupBox>
+
+        </Grid>
+        <!--Plot -->
+        <Grid Grid.Column="0" Grid.Row="1">
+            <oxy:Plot Title="VHI BY YEAR">
+                <oxy:Plot.Series>
+                    <oxy:LineSeries Title=""
+                            ItemsSource="{Binding DataSeries}"
+                                Color="Black" />
+                    <oxy:LineSeries Title=""
+                            ItemsSource="{Binding DataSeries2}"
+                                Color="Green" />
+                </oxy:Plot.Series>
+                <oxy:Plot.Axes>
+                    <oxy:LinearAxis Title="Week"
+                            MajorGridlineStyle="Dash"
+                            Position="Bottom" />
+                    <oxy:LinearAxis Title="VHI"
+                            MajorGridlineStyle="Dash"
+                            Position="Left" />
+                </oxy:Plot.Axes>
+            </oxy:Plot>
+        </Grid>
+
+       
+
+
         <ProgressBar x:Name="ProgressBar" Grid.Column="1"  Grid.Row="0"  VerticalAlignment="Top" Height="20" Minimum="0" Maximum="100" Value="0"  />
         <DataGrid x:Name="DataGridXaml"  Grid.Column="1"  Grid.Row="0" Margin="0,30,0,0" ItemsSource="{Binding VHIData}"/>
         <DataGrid x:Name="DataGridXamlPercetage"  Grid.Column="1"  Grid.Row="1" Margin="0,5,0,0" ItemsSource="{Binding VHIDataPercentage}"/>
