@@ -72,7 +72,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataWorkers\DroughtDataWorker.cs" />
     <Compile Include="DataWorkers\VHIDataWorker.cs" />
+    <Compile Include="Helpers\ComboboxData.cs" />
+    <Compile Include="Helpers\DroughtConverter.cs" />
     <Compile Include="Helpers\InitialComboBox.cs" />
     <Compile Include="Helpers\PlotSeriesWorker.cs" />
     <Compile Include="Model\Extremums.cs" />

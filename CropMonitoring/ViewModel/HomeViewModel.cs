@@ -37,10 +37,6 @@ namespace CropMonitoring.ViewModel
                 _vhiData = value;
             }
         }
-
-
-
-
         RelayCommand _getVHIDataCommand;
         public ICommand GetVHIData
         {
@@ -51,8 +47,6 @@ namespace CropMonitoring.ViewModel
                 return _getVHIDataCommand;
             }
         }
-
-
         public void ExecuteGetVHIDataCommand(object parameter)
         {
             VHIDataContext.ReadFromFile((string)parameter);
@@ -275,6 +269,52 @@ namespace CropMonitoring.ViewModel
         {
             return true;
         }
+
+        ObservableCollection<ComboboxData> _combData;
+        public ObservableCollection<ComboboxData> CombData
+        {
+            get
+            {
+                if (_combData == null)
+                    return new ObservableCollection<ComboboxData>();
+                return _combData;
+            }
+            set
+            {
+                _combData = value;
+            }
+        }
+
+        RelayCommand _getDroughtYear;
+        public ICommand GetDroughtYear
+        {
+            get
+            {
+                if (_getDroughtYear == null)
+                    _getDroughtYear = new RelayCommand(ExecuteGetDroughtYear, CanGetDroughtYear);
+                return _getDroughtYear;
+            }
+        }
+
+        public void ExecuteGetDroughtYear(object parameter)
+        {
+            int a = 10;
+            var param = (Tuple<string, bool>)parameter;
+            int percent = 0;
+            bool isModerate = false;
+            if (Int32.TryParse(param.Item1, out percent))
+            {
+                DroughtDataWorker dWorker = new DroughtDataWorker();
+                isModerate = param.Item2;
+                CombData = !isModerate ? dWorker.GetExtreamYears(VHIDataPercentage, VHIData, percent) : dWorker.GetModerateYears(VHIDataPercentage, VHIData, percent);
+                OnPropertyChanged("CombData");
+            }  
+        }
+        public bool CanGetDroughtYear(object parameter)
+        {
+            return true;
+        }
+
 
     }
 }

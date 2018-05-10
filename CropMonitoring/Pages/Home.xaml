@@ -12,6 +12,158 @@
     <!-- Resources -->
     <UserControl.Resources>
         <ObjectDataProvider x:Key="Choices" ObjectType="{x:Type local:InitialComboBox}" MethodName="GetProvinces"/>
+        <local:DroughtConverter x:Key="MyMultiConverter" />
+
+        <local:ComboboxData x:Key="ComboboxData"></local:ComboboxData>
+
+        <!--datatemplate-->
+        <DataTemplate x:Key="Datatemplate">
+            <Grid  SnapsToDevicePixels="True" Margin="0,0,30,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Year}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" FontSize="15" TextTrimming="CharacterEllipsis" Foreground="Black" />
+                <TextBlock Text="{Binding Week}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" FontSize="15" TextTrimming="CharacterEllipsis" Foreground="Black" />
+                <TextBlock Text="{Binding VHI}" Grid.Column="2" VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15"  Foreground="Black"/>
+            </Grid>
+        </DataTemplate>
+
+        <!--header text-->
+        <TextBlock x:Key="header1" Text="Year"></TextBlock>
+        <TextBlock x:Key="header2" Text="Week"></TextBlock>
+        <TextBlock x:Key="header3" Text="VHI"></TextBlock>
+
+        <!--Toggle Button Template-->
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Grid x:Name="gd">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="30" />
+                </Grid.ColumnDefinitions>
+                <ContentPresenter Grid.Column="0"></ContentPresenter>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding Source={StaticResource header1},Path=Text}"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" FontFamily="Segoe Ui Dark" FontSize="15" ></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding Source={StaticResource header2},Path=Text}"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" FontFamily="Segoe Ui Dark" FontSize="15"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding Source={StaticResource header3},Path=Text}"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" FontFamily="Segoe Ui Dark" FontSize="15"></TextBlock>
+                </Grid>
+                <Border x:Name="Border" SnapsToDevicePixels="True" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="LightGray" BorderThickness="1"/>
+                <Border x:Name="Boredr1" SnapsToDevicePixels="True" Grid.Column="0"  Margin="1" Background="Transparent" BorderBrush="LightGray" BorderThickness="0,0,1,0" />
+                <Path x:Name="Arrow" SnapsToDevicePixels="True" Grid.Column="1" Fill="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 6 6 L 12 0 Z"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="ToggleButton.IsMouseOver" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
+                    <Setter TargetName="Boredr1" Property="BorderBrush" Value="Black"/>
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter TargetName="Arrow" Property="Data" Value="M 0 0 L 5 5 L 10 0"/>
+                    <Setter TargetName="Arrow" Property="Fill" Value="White"/>
+                    <Setter TargetName="Arrow" Property="Stroke" Value="Black"/>
+                    <Setter TargetName="Arrow" Property="StrokeThickness" Value="1.5"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="gd" Property="Visibility" Value="Visible"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <!--TextBox Template-->
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
+            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" />
+        </ControlTemplate>
+
+        <!--Multiple column combobox-->
+        <Style x:Key="Multiple_Column_Cmb" TargetType="ComboBox">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate  TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton" Foreground="Black" Template="{StaticResource ComboBoxToggleButton}" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,3,23,3"  VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <TextBox OverridesDefaultStyle="True" SelectionBrush="Gray" CaretBrush="Black" Margin="0,0,30,0" TextWrapping="NoWrap"   x:Name="PART_EditableTextBox" FontFamily="Segoe UI Dark"   Foreground="Black" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}" HorizontalAlignment="Left" Focusable="True"  VerticalAlignment="Center"  FontSize="15"   Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup"  Grid.ColumnSpan="2" Placement="Bottom"  IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                                <ContentControl Name="DropDown"   SnapsToDevicePixels="True" MaxWidth="{TemplateBinding ActualWidth}" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Grid  Background="White" SnapsToDevicePixels="True" MaxWidth="{TemplateBinding ActualWidth}" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                        <Border  x:Name="DropDownBorder" SnapsToDevicePixels="True" Background="Transparent" MaxWidth="{TemplateBinding ActualWidth}" BorderThickness="1" BorderBrush="LightGray"/>
+                                        <ScrollViewer ScrollViewer.CanContentScroll="False" Grid.Row="1" Margin="0,0,0,0" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" Background="Transparent">
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </ContentControl>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEditable" Value="true">
+                                <Setter Property="IsTabStop" Value="false"/>
+                                <Setter  TargetName="PART_EditableTextBox" Property="Background" Value="White"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Foreground" Value="Black"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="IsTabStop" Value="false"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Foreground" Value="Black"/>
+                                <Setter  TargetName="PART_EditableTextBox" Property="IsEnabled" Value="False"/>
+                                <Setter  TargetName="PART_EditableTextBox" Property="Background" Value="White"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+
+        <!--combobox item style-->
+        <Style x:Key="Column_CmbItem" TargetType="ComboBoxItem">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Grid x:Name="Border" Grid.ColumnSpan="2" Margin="1,0,1,1" Background="White">
+                            <ContentPresenter></ContentPresenter>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ComboBoxItem.IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="Gray"></Setter>
+                            </Trigger>
+                            <Trigger Property="ComboBoxItem.IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="LightBlue"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- TextBox Placeholder -->
         <Style x:Key="placeHolder" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="Template">
@@ -127,28 +279,28 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" >
                         <TextBox Name="txtYearPlot" Style="{StaticResource placeHolder}" Tag="Рік1" />
-                        <Button Name="btnPlot"  Content="Серія1" VerticalAlignment="Top"  Height="30"
+                        <Button Name="btnPlot"  Content="Series1" VerticalAlignment="Top"  Height="30"
                         Command="{Binding MakePlot}"
                         CommandParameter="{Binding Text, ElementName=txtYearPlot}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <TextBox Name="txtYearPlot2" Style="{StaticResource placeHolder}" Tag="Рік2" />
-                        <Button Name="btnPlot2"  Content="Серія2" VerticalAlignment="Top"  Height="30"
+                        <Button Name="btnPlot2"  Content="Series2" VerticalAlignment="Top"  Height="30"
                         Command="{Binding MakePlot2}"
                         CommandParameter="{Binding Text, ElementName=txtYearPlot2}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
-                        <Button Name="btnClear"  Content="Очистити" VerticalAlignment="Top"  Height="30"
+                        <Button Name="btnClear"  Content="Clear" VerticalAlignment="Top"  Height="30"
                         Command="{Binding ClearPlot}"/>
                     </StackPanel>
                 </Grid>
             </GroupBox>
 
 
-            <GroupBox Header="Роки з екстемальними посухами" Margin="10" VerticalAlignment="Stretch"  Grid.Column="1" Grid.Row="1">
+            <GroupBox Header="Yers with extream drought" Margin="10" VerticalAlignment="Stretch"  Grid.Column="1" Grid.Row="1">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.25*"></RowDefinition>
+                        <RowDefinition Height="0.30*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
@@ -158,10 +310,21 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" Name="txtPercentDrought" Style="{StaticResource placeHolder}" Tag="0% - 100%" Margin="5,0"/>
-                        <Button Grid.Column="1" Name="btnGetDrought" Content="Дані" />
-                        <CheckBox Grid.Column="2" Margin="5,0"/>
+                        <Button Grid.Column="1" Name="btnGetDrought" Content="Дані" Command="{Binding GetDroughtYear}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource MyMultiConverter}">
+                                    <Binding Path="Text" ElementName="txtPercentDrought"/>
+                                    <Binding Path="IsChecked " ElementName="chxModerate"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
+
+                        <CheckBox Name="chxModerate" Grid.Column="2" Margin="5,0" Content="Moderate"/>
                         
                     </Grid>
+
+                    <ComboBox Grid.Row="1" x:Name="Combobox1" IsReadOnly="True"  ItemTemplate="{StaticResource Datatemplate }"   IsEditable="False" 
+                             ItemsSource="{Binding CombData}"  Style="{StaticResource Multiple_Column_Cmb}"  ItemContainerStyle="{StaticResource Column_CmbItem}" />
 
                 </Grid>
             </GroupBox>
@@ -196,15 +359,5 @@
         <DataGrid x:Name="DataGridXaml"  Grid.Column="1"  Grid.Row="0" Margin="0,30,0,0" ItemsSource="{Binding VHIData}"/>
         <DataGrid x:Name="DataGridXamlPercetage"  Grid.Column="1"  Grid.Row="1" Margin="0,5,0,0" ItemsSource="{Binding VHIDataPercentage}"/>
         
-
-
-
-
-
-
-
-
-
-
     </Grid>
 </UserControl>

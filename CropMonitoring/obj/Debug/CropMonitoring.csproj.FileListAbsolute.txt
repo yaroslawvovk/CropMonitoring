@@ -45,7 +45,6 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitorin
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring_MarkupCompile.lref
-D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\WPFToolkit.dll
@@ -55,3 +54,4 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.xml
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.Wpf.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.Wpf.xml
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache
