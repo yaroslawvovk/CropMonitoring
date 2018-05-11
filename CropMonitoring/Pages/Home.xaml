@@ -11,7 +11,7 @@
 
     <!-- Resources -->
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="Choices" ObjectType="{x:Type local:InitialComboBox}" MethodName="GetProvinces"/>
+        <ObjectDataProvider x:Key="Choices" ObjectType="{x:Type local:InitialProvinces}" MethodName="GetProvinces"/>
         <local:DroughtConverter x:Key="MyMultiConverter" />
 
         <local:ComboboxData x:Key="ComboboxData"></local:ComboboxData>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CropMonitoring.Helpers
 {
-    static class InitialComboBox
+    static class InitialProvinces
     {
         public static Dictionary<int, string> GetProvinces()
         {

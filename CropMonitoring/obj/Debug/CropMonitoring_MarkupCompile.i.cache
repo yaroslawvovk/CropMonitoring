@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\App.xaml
-61262676084
+71868908912
 
-3026667466
-69-1534355133
-MainWindow.xaml;Pages\BasicPage.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\Home.xaml;Pages\SettingsPage.xaml;
+342130830226
+71857640674
+MainWindow.xaml;Pages\BasicPage.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\Home.xaml;Pages\SettingsPage.xaml;Pages\Visualization.xaml;
 
-True
+False
 

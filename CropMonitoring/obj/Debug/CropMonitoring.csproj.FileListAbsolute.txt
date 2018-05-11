@@ -54,4 +54,8 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.xml
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.Wpf.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\OxyPlot.Wpf.xml
-D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\Visualization.baml
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\Visualization.g.cs
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\Svg.dll
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\Svg.pdb
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\Svg.xml

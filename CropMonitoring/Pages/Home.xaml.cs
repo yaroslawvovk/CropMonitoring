@@ -33,6 +33,7 @@ namespace CropMonitoring.Pages
 
         private async void Download_Click(object sender, RoutedEventArgs e)
         {
+            ProgressBar.Value = 0;
             Loader load = new VHIDataLoader(ProgressBar);
             Loader load2 = new VHIPercentageLoader(ProgressBar);
 

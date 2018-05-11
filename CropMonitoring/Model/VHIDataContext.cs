@@ -30,6 +30,7 @@ namespace CropMonitoring.Model
             }
         }
 
+        
         public static void ReadFromFile(string FileName)
         {
             _vhiData = new ObservableCollection<VHIData>();
@@ -69,6 +70,44 @@ namespace CropMonitoring.Model
             }
 
             else { MessageBox.Show("Файл з іменем " + FileName + ".txt відсутній!"); }
+
+        }
+        public static double SelectByYearWeek(int year,int week, string FileName)
+        {
+            double result = 0;
+            string[] parsedData;
+            string line;
+            if (File.Exists(FileName + ".txt"))
+            {
+                StreamReader sr = new StreamReader(FileName + ".txt");
+
+                try
+                {
+                    _dateLoad = sr.ReadLine();
+                    while ((line = sr.ReadLine()) != null)
+                    {
+
+                        parsedData = line.Split(new Char[] { ',', ' ' },
+                                         StringSplitOptions.RemoveEmptyEntries);
+
+
+                        int Year = int.Parse(parsedData[0]);
+                        int Week = int.Parse(parsedData[1]);
+                        if(year==Year&&week==Week)
+                        {
+                            sr.Close();
+                            return double.Parse(parsedData[6], CultureInfo.InvariantCulture);
+                            
+                        }
+                    }
+
+                }
+
+                catch (Exception) { }
+
+                sr.Close();
+            }
+            return result;
 
         }
     }
