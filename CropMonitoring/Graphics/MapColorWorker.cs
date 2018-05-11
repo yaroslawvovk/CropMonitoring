@@ -24,29 +24,18 @@ namespace CropMonitoring.Graphics
             {
                 Color color = ColorByVHI(_vhi);
                 (element as SvgPath).Fill = new SvgColourServer(color);
+                return;
             }
 
             if (element.Children.Count > 0)
             {
                 foreach (var item in element.Children)
                 {
-                    //if (item.ID == "UA-71")
-                    //    ChangeFill(item,_vhi);
+
                     if (item.ID != null)
                     {
                         if (item.ID == "id" + provinceId)
                             ChangeFill(item, provinceId, _vhi);
-
-                        //int Id = 0;
-                        //if (Int32.TryParse(item.ID, out Id))
-                        //{
-                        //    if(Id == provinceId)
-                        //    {
-                        //        ChangeFill(item, provinceId, _vhi);
-                        //    }
-                        //}
-
-
                     }
                 }
             }

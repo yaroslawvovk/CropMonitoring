@@ -87,6 +87,7 @@
     <Compile Include="Model\Extremums.cs" />
     <Compile Include="Model\VHIDataPercentage.cs" />
     <Compile Include="Model\VHIDataPercentageContext.cs" />
+    <Compile Include="Model\YearWeek.cs" />
     <Compile Include="Pages\Visualization.xaml.cs">
       <DependentUpon>Visualization.xaml</DependentUpon>
     </Compile>

@@ -14,6 +14,7 @@ namespace CropMonitoring.Model
     {
         private static string _dateLoad;
         private static ObservableCollection<VHIData> _vhiData;
+        private static ObservableCollection<YearWeek> _yearWeek;
 
         public static string _DateLoad
         {
@@ -29,8 +30,15 @@ namespace CropMonitoring.Model
                 return _vhiData;
             }
         }
+        public static ObservableCollection<YearWeek> _YearWeek
+        {
+            get
+            {
+                return _yearWeek;
+            }
+        }
 
-        
+
         public static void ReadFromFile(string FileName)
         {
             _vhiData = new ObservableCollection<VHIData>();
@@ -49,7 +57,7 @@ namespace CropMonitoring.Model
                         parsedData = line.Split(new Char[] { ',', ' ' },
                                          StringSplitOptions.RemoveEmptyEntries);
 
-                        VHIData data = new VHIData();
+                        VHIData data = new VHIData();                      
                         data.Year = int.Parse(parsedData[0]);
                         data.Week = int.Parse(parsedData[1]);
                         data.SMN =  double.Parse(parsedData[2], CultureInfo.InvariantCulture);
@@ -109,6 +117,40 @@ namespace CropMonitoring.Model
             }
             return result;
 
+        }
+        public static ObservableCollection<YearWeek> GetYearWeekList()
+        {
+            _yearWeek = new ObservableCollection<YearWeek>();
+            string FileName = "Черкаси";
+            string[] parsedData;
+            string line;
+            if (File.Exists(FileName + ".txt"))
+            {
+                StreamReader sr = new StreamReader(FileName + ".txt");
+
+                try
+                {
+                    _dateLoad = sr.ReadLine();
+                    while ((line = sr.ReadLine()) != null)
+                    {
+
+                        parsedData = line.Split(new Char[] { ',', ' ' },
+                                         StringSplitOptions.RemoveEmptyEntries);
+
+                        YearWeek yearw = new YearWeek();
+                        yearw.year = int.Parse(parsedData[0]);
+                        yearw.week = int.Parse(parsedData[1]);
+
+                        _yearWeek.Add(yearw);
+                    }
+                }
+
+                catch (Exception) { }
+
+                sr.Close();
+              
+            }
+            return _yearWeek;
         }
     }
 }

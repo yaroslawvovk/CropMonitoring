@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:local="clr-namespace:CropMonitoring.Helpers"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
-
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="Choices" ObjectType="{x:Type local:InitialProvinces}" MethodName="GetProvinces"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.10*"></RowDefinition>
@@ -40,10 +44,45 @@
                 <ColumnDefinition Width="0.20*"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Tools">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="Situation">
+                    
+                    <ListBox x:Name="listboxFolder1"  BorderThickness="0" 
+                        ItemsSource="{Binding YearWeek}" SelectedValue="week" SelectedItem="{Binding SelectedYearWeek, Mode=TwoWay}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate >
+                                <Border  BorderBrush="Black" BorderThickness="1"  >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Label Content="Year = " />
+                                        <TextBlock Text="{Binding year}" />
+                                        <Label Content="; Week = " />
+                                        <TextBlock Text="{Binding week}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                
+                
+            </GroupBox>
 
-            <Button Name="btnDraw" Command="{Binding GetBitmapImage}"
-                        CommandParameter="{Binding Text, ElementName=comBoxAreas}"/>
-            <Image Grid.Column="1" Name="imgMap" Source="{Binding BitmapImage}" HorizontalAlignment="Stretch" />
+
+                </Grid>
+            </GroupBox>
+            
+           
+           
+           
+
+            <GroupBox Grid.Column="1" Header="Map of Ukraine">
+                <Image Grid.Column="1" Name="imgMap" Source="{Binding BitmapImage}" HorizontalAlignment="Stretch" />
+            </GroupBox>
+            
 
         </Grid>
         

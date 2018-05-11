@@ -10,6 +10,7 @@ using CropMonitoring.Model;
 using CropMonitoring.Helpers;
 using System.IO;
 using CropMonitoring.Graphics;
+using System.Collections.ObjectModel;
 
 namespace CropMonitoring.ViewModel
 {
@@ -53,24 +54,23 @@ namespace CropMonitoring.ViewModel
 
         public void ExecuteGetBitmapImage(object parameter)
         {
+            var yw = parameter as YearWeek;
 
-            int year = 2017;
-            int week = 40;
-            MapColorWorker mapWorker = new MapColorWorker();
-            Dictionary<int, string> provinces = InitialProvinces.GetProvinces();
-            //Dictionary<int, double> provinceVHI = new Dictionary<int, double>();
-            foreach (KeyValuePair<int, string> item in provinces)
+            if (yw != null)
             {
-               double _vhi =  VHIDataContext.SelectByYearWeek(year, week, item.Value);
-                mapWorker.ApplyColors(svgDocument,item.Key,_vhi);
-                //provinceVHI.Add(item.Key, _vhi);
+                int year = yw.year;
+                int week = yw.week;
+                MapColorWorker mapWorker = new MapColorWorker();
+                Dictionary<int, string> provinces = InitialProvinces.GetProvinces();
+                foreach (KeyValuePair<int, string> item in provinces)
+                {
+                    double _vhi = VHIDataContext.SelectByYearWeek(year, week, item.Value);
+                    mapWorker.ApplyColors(svgDocument, item.Key, _vhi);
+                }
+
+                BitmapImage = SVGParser.BitmapToImageSource(svgDocument.Draw());
+                OnPropertyChanged("BitmapImage");
             }
-
-            BitmapImage = SVGParser.BitmapToImageSource(svgDocument.Draw());
-
-
-
-            OnPropertyChanged("BitmapImage");
         }
        
         public bool CanExecuteGetBitmapImageCommand(object parameter)
@@ -82,6 +82,42 @@ namespace CropMonitoring.ViewModel
         {
             
         }
+
+        ObservableCollection<YearWeek> _yearWeek;
+        public ObservableCollection<YearWeek> YearWeek
+        {
+            get
+            {
+                if (_yearWeek == null)
+                {
+                    _yearWeek = VHIDataContext.GetYearWeekList();
+                    return _yearWeek;
+                }
+                return _yearWeek;
+            }
+            set
+            {
+                _yearWeek = value;
+            }
+        }
+
+        private YearWeek _selectedYearWeek;
+        public YearWeek  SelectedYearWeek
+        {
+            get
+            {
+                if (_selectedYearWeek != null)
+                    ExecuteGetBitmapImage(_selectedYearWeek);
+                return _selectedYearWeek;
+            }
+
+            set
+            {
+                _selectedYearWeek= value;
+            }
+        }
+
+
 
     }
 }
