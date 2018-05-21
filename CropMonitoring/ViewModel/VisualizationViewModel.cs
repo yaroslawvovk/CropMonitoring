@@ -88,7 +88,7 @@ namespace CropMonitoring.ViewModel
         {
             get
             {
-                if (_yearWeek == null)
+                if (_yearWeek == null||_yearWeek.Count==0)
                 {
                     _yearWeek = VHIDataContext.GetYearWeekList();
                     return _yearWeek;
@@ -118,6 +118,47 @@ namespace CropMonitoring.ViewModel
         }
 
 
+        RelayCommand _fillAreaByWeek;
+       public ICommand FillAreaByWeek
+        {
+            get
+            {
+                if (_fillAreaByWeek == null)
+                    _fillAreaByWeek = new RelayCommand(ExecuteFillArea, CanExecuteFillArea);
+                return _fillAreaByWeek;
+            }
 
+        }
+
+        public void ExecuteFillArea(object parameter)
+        {
+            var items = (Tuple<string, string>)parameter;
+            int year = 0;
+            int week = 0;
+            if(Int32.TryParse(items.Item1,out year)&&Int32.TryParse(items.Item2,out week))
+            {
+                MapColorWorker mapWorker = new MapColorWorker();
+                Dictionary<int, string> provinces = InitialProvinces.GetProvinces();
+                foreach (KeyValuePair<int, string> item in provinces)
+                {
+                    double _vhi = VHIDataContext.SelectByYearWeek(year, week, item.Value);
+                    mapWorker.ApplyColors(svgDocument, item.Key, _vhi);
+                }
+
+                BitmapImage = SVGParser.BitmapToImageSource(svgDocument.Draw());
+                OnPropertyChanged("BitmapImage");
+
+            }
+
+        }
+
+        public bool CanExecuteFillArea(object parameter)
+        {
+            var items = (Tuple<string, string>)parameter;
+            if (items == null || string.IsNullOrEmpty(items.Item1) || string.IsNullOrEmpty(items.Item2))
+                 return false;
+            return true;
+
+        }
     }
 }

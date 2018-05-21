@@ -84,6 +84,7 @@
     <Compile Include="Helpers\DroughtConverter.cs" />
     <Compile Include="Helpers\InitialComboBox.cs" />
     <Compile Include="Helpers\PlotSeriesWorker.cs" />
+    <Compile Include="Helpers\YearWeekConverter.cs" />
     <Compile Include="Model\Extremums.cs" />
     <Compile Include="Model\VHIDataPercentage.cs" />
     <Compile Include="Model\VHIDataPercentageContext.cs" />

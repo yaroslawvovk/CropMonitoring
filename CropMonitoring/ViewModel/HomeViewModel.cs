@@ -298,7 +298,6 @@ namespace CropMonitoring.ViewModel
 
         public void ExecuteGetDroughtYear(object parameter)
         {
-            int a = 10;
             var param = (Tuple<string, bool>)parameter;
             int percent = 0;
             bool isModerate = false;

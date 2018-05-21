@@ -279,7 +279,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" >
                         <TextBox Name="txtYearPlot" Style="{StaticResource placeHolder}" Tag="Рік1" />
-                        <Button Name="btnPlot"  Content="Series1" VerticalAlignment="Top"  Height="30"
+                        <Button Name="btnPlot"  Content="Series1" VerticalAlignment="Top" Height="30"
                         Command="{Binding MakePlot}"
                         CommandParameter="{Binding Text, ElementName=txtYearPlot}"/>
                     </StackPanel>

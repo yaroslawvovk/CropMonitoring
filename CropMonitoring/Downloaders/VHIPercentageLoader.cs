@@ -36,9 +36,7 @@ namespace CropMonitoring.Downloaders
             return Task.Factory.StartNew(() =>
             {
                 StreamWriter sw = new StreamWriter(FileName + "Percentage.txt");
-
                 Stream stream = Download(ProvinceId);
-
                 try
                 {
                     StreamReader streamReader = new StreamReader(stream);
@@ -64,7 +62,6 @@ namespace CropMonitoring.Downloaders
                     }
 
                     MessageBox.Show("Data of region " + FileName + " has been downloaded!");
-
                     streamReader.Close();
                     sw.Close();
 

@@ -88,17 +88,13 @@ namespace CropMonitoring.Model
             if (File.Exists(FileName + ".txt"))
             {
                 StreamReader sr = new StreamReader(FileName + ".txt");
-
                 try
                 {
                     _dateLoad = sr.ReadLine();
                     while ((line = sr.ReadLine()) != null)
                     {
-
                         parsedData = line.Split(new Char[] { ',', ' ' },
                                          StringSplitOptions.RemoveEmptyEntries);
-
-
                         int Year = int.Parse(parsedData[0]);
                         int Week = int.Parse(parsedData[1]);
                         if(year==Year&&week==Week)
@@ -121,19 +117,16 @@ namespace CropMonitoring.Model
         public static ObservableCollection<YearWeek> GetYearWeekList()
         {
             _yearWeek = new ObservableCollection<YearWeek>();
-            string FileName = "Черкаси";
+            string FileName = "Weeks";
             string[] parsedData;
             string line;
             if (File.Exists(FileName + ".txt"))
             {
                 StreamReader sr = new StreamReader(FileName + ".txt");
-
                 try
                 {
-                    _dateLoad = sr.ReadLine();
                     while ((line = sr.ReadLine()) != null)
                     {
-
                         parsedData = line.Split(new Char[] { ',', ' ' },
                                          StringSplitOptions.RemoveEmptyEntries);
 

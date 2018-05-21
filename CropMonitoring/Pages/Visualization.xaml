@@ -8,7 +8,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="Choices" ObjectType="{x:Type local:InitialProvinces}" MethodName="GetProvinces"/>
+
+        <local:YearWeekConverter x:Key="YearWeekConverter" />
+
+        <Style TargetType="TextBox">
+            <Setter Property="MaxWidth" Value="170"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="MaxWidth" Value="170"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+
+       
+
     </UserControl.Resources>
     
     <Grid>
@@ -44,42 +57,54 @@
                 <ColumnDefinition Width="0.20*"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="0" Header="Tools">
+            <GroupBox Grid.Column="0" Header="Tools" BorderBrush="Black" BorderThickness="2">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.Row="0" Header="Situation">
                     
-                    <ListBox x:Name="listboxFolder1"  BorderThickness="0" 
+                    <GroupBox Grid.Row="0" Header="Situation" BorderBrush="Black" BorderThickness="2">
+                        <ListBox x:Name="listboxFolder1"  BorderThickness="0" 
                         ItemsSource="{Binding YearWeek}" SelectedValue="week" SelectedItem="{Binding SelectedYearWeek, Mode=TwoWay}" >
-                        <ListBox.ItemTemplate>
-                            <DataTemplate >
-                                <Border  BorderBrush="Black" BorderThickness="1"  >
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Label Content="Year = " />
-                                        <TextBlock Text="{Binding year}" />
-                                        <Label Content="; Week = " />
-                                        <TextBlock Text="{Binding week}" />
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                
-                
-            </GroupBox>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate >
+                                    <Border  BorderBrush="Black" BorderThickness="1"  >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Label Content="Year = " />
+                                            <TextBlock Text="{Binding year}" />
+                                            <Label Content="; Week = " />
+                                            <TextBlock Text="{Binding week}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
 
-
+                    <GroupBox Grid.Row="1" Header="By specific data" BorderBrush="Black" BorderThickness="2">
+                        <StackPanel>
+                            <TextBox Name="txtYear"/>
+                            <TextBox Name="txtWeek" />
+                            <Button Name="btnOk" Content="OK" Command="{Binding FillAreaByWeek}">
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource YearWeekConverter}">
+                                        <Binding Path="Text" ElementName="txtYear"/>
+                                        <Binding Path="Text " ElementName="txtWeek"/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </StackPanel>
+                    </GroupBox>
                 </Grid>
             </GroupBox>
-            
-           
-           
-           
 
-            <GroupBox Grid.Column="1" Header="Map of Ukraine">
+
+
+
+
+            <GroupBox Grid.Column="1" Header="Map of Ukraine" BorderBrush="Black" BorderThickness="2">
                 <Image Grid.Column="1" Name="imgMap" Source="{Binding BitmapImage}" HorizontalAlignment="Stretch" />
             </GroupBox>
             
