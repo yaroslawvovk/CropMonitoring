@@ -12,6 +12,8 @@
     <AssemblyName>CropMonitoring</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +35,18 @@
   <ItemGroup>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+    </Reference>
+    <Reference Include="gdalconst_csharp, Version=1.0.5387.28601, Culture=neutral, PublicKeyToken=db5a52b08dc5b321, processorArchitecture=MSIL">
+      <HintPath>..\packages\GDAL.1.11.1\lib\net40\gdalconst_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gdal_csharp, Version=1.0.5387.28601, Culture=neutral, PublicKeyToken=db5a52b08dc5b321, processorArchitecture=MSIL">
+      <HintPath>..\packages\GDAL.1.11.1\lib\net40\gdal_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ogr_csharp, Version=1.0.5387.28600, Culture=neutral, PublicKeyToken=db5a52b08dc5b321, processorArchitecture=MSIL">
+      <HintPath>..\packages\GDAL.1.11.1\lib\net40\ogr_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="osr_csharp, Version=1.0.5387.28600, Culture=neutral, PublicKeyToken=db5a52b08dc5b321, processorArchitecture=MSIL">
+      <HintPath>..\packages\GDAL.1.11.1\lib\net40\osr_csharp.dll</HintPath>
     </Reference>
     <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
       <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
@@ -78,6 +92,7 @@
     </Compile>
     <Compile Include="DataWorkers\DroughtDataWorker.cs" />
     <Compile Include="DataWorkers\VHIDataWorker.cs" />
+    <Compile Include="GdalConfiguration.cs" />
     <Compile Include="Graphics\MapColorWorker.cs" />
     <Compile Include="Graphics\SVGParser.cs" />
     <Compile Include="Helpers\ComboboxData.cs" />
@@ -89,9 +104,13 @@
     <Compile Include="Model\VHIDataPercentage.cs" />
     <Compile Include="Model\VHIDataPercentageContext.cs" />
     <Compile Include="Model\YearWeek.cs" />
+    <Compile Include="Pages\SetelliteImage.xaml.cs">
+      <DependentUpon>SetelliteImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Visualization.xaml.cs">
       <DependentUpon>Visualization.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SetelliteImageProcessor\LandsatImageProcessor.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\VisualizationViewModel.cs" />
@@ -108,6 +127,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\BasicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SetelliteImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,7 +180,17 @@
   <ItemGroup>
     <Resource Include="Images\ukraineHigh.svg" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="GdalConfiguration.vb" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\GDAL.Native.1.11.1\build\net40\GDAL.Native.targets" Condition="Exists('..\packages\GDAL.Native.1.11.1\build\net40\GDAL.Native.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\GDAL.Native.1.11.1\build\net40\GDAL.Native.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GDAL.Native.1.11.1\build\net40\GDAL.Native.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -13,6 +13,7 @@
                 <mui:Link DisplayName="home" Source="/Pages/Home.xaml" />
                 <mui:Link DisplayName="my page" Source="/Pages/BasicPage.xaml" />
                 <mui:Link DisplayName="VisualizationDev" Source="/Pages/Visualization.xaml"/>
+                <mui:Link DisplayName="Landsat 7 (ETM+)" Source="/Pages/SetelliteImage.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="settings" GroupKey="settings">
