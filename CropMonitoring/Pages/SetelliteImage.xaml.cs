@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CropMonitoring.ViewModel;
 
 namespace CropMonitoring.Pages
 {
@@ -23,8 +24,7 @@ namespace CropMonitoring.Pages
         public SetelliteImage()
         {
             InitializeComponent();
-            
-
+            this.DataContext = new SetelliteImageViewModel();
         }
     }
 }

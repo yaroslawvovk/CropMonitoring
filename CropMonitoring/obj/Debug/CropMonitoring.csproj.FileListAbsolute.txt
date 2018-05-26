@@ -59,7 +59,6 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\Visuali
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\Svg.dll
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\Svg.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\Svg.xml
-D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\gdalconst_csharp.dll
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\gdal_csharp.dll
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\ogr_csharp.dll
@@ -67,3 +66,6 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\osr_csharp.dl
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\SetelliteImage.baml
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\SetelliteImage.g.cs
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring_Content.g.cs
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\System.ValueTuple.dll
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\bin\Debug\System.ValueTuple.xml
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache

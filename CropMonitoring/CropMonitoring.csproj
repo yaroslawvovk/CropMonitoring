@@ -60,6 +60,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
     </Reference>
@@ -100,7 +103,9 @@
     <Compile Include="Helpers\InitialComboBox.cs" />
     <Compile Include="Helpers\PlotSeriesWorker.cs" />
     <Compile Include="Helpers\YearWeekConverter.cs" />
+    <Compile Include="Helpers\ZoomBorder.cs" />
     <Compile Include="Model\Extremums.cs" />
+    <Compile Include="Model\SetelliteImageFiles.cs" />
     <Compile Include="Model\VHIDataPercentage.cs" />
     <Compile Include="Model\VHIDataPercentageContext.cs" />
     <Compile Include="Model\YearWeek.cs" />
@@ -112,6 +117,7 @@
     </Compile>
     <Compile Include="SetelliteImageProcessor\LandsatImageProcessor.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
+    <Compile Include="ViewModel\SetelliteImageViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\VisualizationViewModel.cs" />
     <Page Include="MainWindow.xaml">
