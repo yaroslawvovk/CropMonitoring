@@ -7,12 +7,54 @@
              xmlns:local="clr-namespace:CropMonitoring.Helpers"
              mc:Ignorable="d" 
               d:DesignHeight="800" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:DoubleToPctConverter x:Key="dblToPct"/>
+        <Style x:Key="pbarCircularStyle" TargetType="{x:Type ProgressBar}">
+            <Setter Property="Foreground" Value="#01D328"/>
+            <Setter Property="Maximum" Value="100"/>
+            <Setter Property="Height" Value="100"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid x:Name="TemplateRoot" SnapsToDevicePixels="true">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   FontSize="15" Foreground="DarkGray"
+                                   Text="{TemplateBinding Value, Converter={StaticResource dblToPct}}" />
+                            <local:CircularProgress Stroke="{TemplateBinding Foreground}"
+                                              Value="{TemplateBinding Value}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.10*"></RowDefinition>
+            <RowDefinition Height="0.15*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="0.94*"></ColumnDefinition>
+                <ColumnDefinition   Width="0.06*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox  Grid.Column="1" Header="Status">
+                <Grid >
+                    <ProgressBar  Width="Auto" Height="Auto" Style="{DynamicResource pbarCircularStyle}"
+                     Value="{Binding ProgressValue}"  />
+                </Grid>
+            </GroupBox >
+            <!--<StackPanel  Grid.Column="1" >
+                <ProgressBar Height="80" Width="80" Style="{DynamicResource pbarCircularStyle}"
+                     Value="{Binding ProgressValue}" />
+            </StackPanel>-->
+
+        </Grid>
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.35*"></ColumnDefinition>
@@ -38,15 +80,33 @@
                     </GroupBox>
 
                     <GroupBox Grid.Row="2" Header="Input images" BorderBrush="Black" BorderThickness="2">
-                        <ListBox x:Name="lsBoxOutputImages"  BorderThickness="0" 
+                        <!--<ListBox x:Name="lsBoxOutputImages"  BorderThickness="0" 
                         ItemsSource="{Binding NDVIImageList}" SelectedItem="{Binding SelectedNDVIImage,Mode=TwoWay}">
                             <ListBox.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
-                                    </MenuItem>
+                                    <MenuItem Header="Remove"
+                                        Command="{Binding DeleteCommand}"
+                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                        </ListBox>-->
+                        <ListBox x:Name="lsBoxOutputImages"  BorderThickness="0" ItemsSource="{Binding NDVIImageList}" SelectedItem="{Binding SelectedNDVIImage}">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Remove"
+                                        Command="{Binding DeleteCommand}" />
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                         </ListBox>
+                        <!--<ListView x:Name="itemsListView" ItemsSource="{Binding  NDVIImageList}">
+                            <ListView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Remove"
+                                    Command="{Binding DeleteCommand}"
+                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                        </ListView>-->
                     </GroupBox>
                 </Grid>
                 
@@ -57,7 +117,7 @@
 
             <GroupBox Grid.Column="1" Header="Landsat image" BorderBrush="Black" BorderThickness="2">
                 <local:ZoomBorder x:Name="border" ClipToBounds="True" Background="Gray">
-                    <Image Name="imgLandsat" Source="{Binding ImageFile}" HorizontalAlignment="Stretch" />
+                    <Image Name="imgLandsat" Source="{Binding BitmapImage}" HorizontalAlignment="Stretch" />
                 </local:ZoomBorder>
             </GroupBox>
 

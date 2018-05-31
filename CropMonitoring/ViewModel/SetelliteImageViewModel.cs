@@ -7,11 +7,14 @@ using CropMonitoring.Model;
 using CropMonitoring.Infrastructure;
 using System.Windows.Input;
 using CropMonitoring.SetelliteImageProcessor;
+using System.Threading;
+using System.Windows.Media.Imaging;
 
 namespace CropMonitoring.ViewModel
 {
     class SetelliteImageViewModel : ViewModelBase
     {
+        SetelliteImageAccess imageAccess = new SetelliteImageAccess();
 
         List<string> _imageFiles;
         public List<string> ImageFiles
@@ -19,23 +22,36 @@ namespace CropMonitoring.ViewModel
             get
             {
                 if (_imageFiles == null)
-                    return SetelliteImageFiles.GetInputImageFiles();
+                    return imageAccess.GetInputImageFiles();
                 return _imageFiles;
             }
         }
 
-        string _imageFile;
-        public string ImageFile
+        //string _imageFile;
+        //public string ImageFile
+        //{
+        //    get
+        //    {
+        //        return _imageFile;
+        //    }
+        //    set
+        //    {
+        //        _imageFile = value;
+        //    }
+        //}
+        BitmapImage _bitmapImage;
+        public BitmapImage BitmapImage
         {
             get
             {
-                return _imageFile;
+                return _bitmapImage;
             }
             set
             {
-                _imageFile = value;
+                _bitmapImage = value;
             }
         }
+
 
         string _selectedFileName;
         public string SelectedFileName
@@ -44,8 +60,8 @@ namespace CropMonitoring.ViewModel
             {
                 if (_selectedFileName != null)
                 {
-                    ImageFile = SetelliteImageFiles.GetImageFile(_selectedFileName);
-                    OnPropertyChanged("ImageFile");
+                    BitmapImage = imageAccess.GetBitmapImage(_selectedFileName);
+                    OnPropertyChanged("BitmapImage");
                 }
                 return null;
             }
@@ -67,17 +83,40 @@ namespace CropMonitoring.ViewModel
         }
         public async void CalculateNDVIImageCommand(object parameter)
         {
-            var bands = SetelliteImageFiles.GetBandsPath(_selectedFileName);
+
+            var bands = imageAccess.GetBandsPath(_selectedFileName);
             LandsatImageProcessor imgProc = new LandsatImageProcessor();
+            imgProc.statusEvent += ImgProc_statusEvent;
 
             if (bands.band3 != null && bands.band4 != null && bands.outImg != null)
             {
                 await Task.Factory.StartNew(() =>
                 imgProc.CalculateNDVI(bands.band3, bands.band4, bands.outImg)
                 );
-                NDVIImageList = SetelliteImageFiles.GetOutputImageFiles();
+                NDVIImageList = imageAccess.GetOutputImageFiles();
                 OnPropertyChanged("NDVIImageList");
             }
+
+
+        }
+
+        int _progressValue;
+        public int ProgressValue
+        {
+            get
+            {
+                return _progressValue;
+            }
+            set
+            {
+                _progressValue = value;
+            }
+        }
+
+        private void ImgProc_statusEvent(object sender, ThresholdReachedEventArgs e)
+        {
+            ProgressValue = e.Status;
+            OnPropertyChanged("ProgressValue");
         }
 
         public bool CanCalculateNDVIImageCommand(object parameter)
@@ -93,7 +132,7 @@ namespace CropMonitoring.ViewModel
             get
             {
                 if (_ndviImageList == null)
-                    return SetelliteImageFiles.GetOutputImageFiles();
+                    return imageAccess.GetOutputImageFiles();
                 return _ndviImageList;
             }
             set
@@ -108,8 +147,8 @@ namespace CropMonitoring.ViewModel
             {
                 if (_selectedNDVIImage != null)
                 {
-                    ImageFile = SetelliteImageFiles.GetNDVIImage(_selectedNDVIImage);              
-                    OnPropertyChanged("ImageFile");
+                    BitmapImage = imageAccess.GetBitmapNDVIImage(_selectedNDVIImage);
+                    OnPropertyChanged("BitmapImage");
                 }
                 return null;
             }
@@ -133,11 +172,11 @@ namespace CropMonitoring.ViewModel
 
         public void DeleteImageCommand(object parameter)
         {
-       
-                SetelliteImageFiles.DeleteImage(SelectedNDVIImage);
-                OnPropertyChanged("NDVIImageList");
-            
-            
+
+            BitmapImage = null;
+            OnPropertyChanged("BitmapImage");
+            imageAccess.DeleteImage(_selectedNDVIImage);
+            OnPropertyChanged("NDVIImageList");
         }
         public bool CanDeleteImageCommand(object parameter)
         {

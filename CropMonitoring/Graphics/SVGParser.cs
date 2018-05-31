@@ -24,8 +24,7 @@ namespace CropMonitoring.Graphics
         }
 
         public static BitmapImage BitmapToImageSource(Bitmap bitmap)
-        {
-            
+        {       
             using (MemoryStream memory = new MemoryStream())
             {
                 bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Png);

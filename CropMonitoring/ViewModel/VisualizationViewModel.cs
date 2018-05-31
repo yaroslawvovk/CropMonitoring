@@ -12,12 +12,16 @@ using System.IO;
 using CropMonitoring.Graphics;
 using System.Collections.ObjectModel;
 
+
 namespace CropMonitoring.ViewModel
 {
     class VisualizationViewModel:ViewModelBase
     {
         private Svg.SvgDocument svgDocument;
         private string selectedPath = @"D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\Images\ukraineHigh.svg";
+        
+       
+
 
         BitmapImage _bitmapImage;
         public BitmapImage BitmapImage
@@ -27,10 +31,9 @@ namespace CropMonitoring.ViewModel
                 if (_bitmapImage == null)
                 {
                     svgDocument = SVGParser.GetSvgDocument(selectedPath);
-                    _bitmapImage =  SVGParser.BitmapToImageSource(SVGParser.GetBitmapFromSVG(selectedPath));
-
-                    //_bitmapImage.UriSource = new Uri("pack://application:,,,/Images/ukraineHigh.svg");
-
+                     _bitmapImage = SVGParser.BitmapToImageSource(SVGParser.GetBitmapFromSVG(selectedPath));
+                    //_bitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/DSC_0239.JPG"));              
+                    
                 }
 
                 return _bitmapImage;

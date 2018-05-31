@@ -98,14 +98,16 @@
     <Compile Include="GdalConfiguration.cs" />
     <Compile Include="Graphics\MapColorWorker.cs" />
     <Compile Include="Graphics\SVGParser.cs" />
+    <Compile Include="Helpers\CircularProgress.cs" />
     <Compile Include="Helpers\ComboboxData.cs" />
+    <Compile Include="Helpers\DoubleToPctConverter.cs" />
     <Compile Include="Helpers\DroughtConverter.cs" />
     <Compile Include="Helpers\InitialComboBox.cs" />
     <Compile Include="Helpers\PlotSeriesWorker.cs" />
     <Compile Include="Helpers\YearWeekConverter.cs" />
     <Compile Include="Helpers\ZoomBorder.cs" />
     <Compile Include="Model\Extremums.cs" />
-    <Compile Include="Model\SetelliteImageFiles.cs" />
+    <Compile Include="Model\SetelliteImageAccess.cs" />
     <Compile Include="Model\VHIDataPercentage.cs" />
     <Compile Include="Model\VHIDataPercentageContext.cs" />
     <Compile Include="Model\YearWeek.cs" />
@@ -184,10 +186,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\ukraineHigh.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="GdalConfiguration.vb" />
+    <Resource Include="Images\ukraineHigh.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GDAL.Native.1.11.1\build\net40\GDAL.Native.targets" Condition="Exists('..\packages\GDAL.Native.1.11.1\build\net40\GDAL.Native.targets')" />

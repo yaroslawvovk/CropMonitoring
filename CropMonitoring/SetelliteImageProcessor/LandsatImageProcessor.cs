@@ -147,7 +147,7 @@ namespace CropMonitoring.SetelliteImageProcessor
                         Color color = SetColor(ndvi);
                         r1[i + j * width] = color.R;
                         b1[i + j * width] = color.B;
-                        g1[i + j + width] = color.G;                    
+                        g1[i + j + width] = color.G;
                         //bitmap.SetPixel(i, j, SetColor(ndvi));
                         //bitmap.SetPixel(i, j, SetColor2(ndvi));
                     }
@@ -159,8 +159,8 @@ namespace CropMonitoring.SetelliteImageProcessor
                 outRaster.SetGeoTransform(geoTransformerData);
                 outRaster.SetProjection(ds.GetProjection());
 
-                outRaster.GetRasterBand(1).WriteRaster(0, 0, width, height, b1, width, height, 0, 0);
-                outRaster.GetRasterBand(2).WriteRaster(0, 0, width, height, r1, width, height, 0, 0);
+                outRaster.GetRasterBand(1).WriteRaster(0, 0, width, height, r1, width, height, 0, 0);
+                outRaster.GetRasterBand(2).WriteRaster(0, 0, width, height, b1, width, height, 0, 0);
                 outRaster.GetRasterBand(3).WriteRaster(0, 0, width, height, g1, width, height, 0, 0);
                 outRaster.FlushCache();
             }
@@ -229,7 +229,7 @@ namespace CropMonitoring.SetelliteImageProcessor
             {
                 return Color.OrangeRed;
             }
-            return Color.Green;
+            return Color.Black;
         }
         public static Color SetColor2(double ndvi)
         {

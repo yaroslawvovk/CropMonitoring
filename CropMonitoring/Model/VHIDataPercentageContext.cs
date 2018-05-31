@@ -35,9 +35,9 @@ namespace CropMonitoring.Model
             _vhiDataPercentage = new ObservableCollection<VHIDataPercentage>();
             string[] parsedData;
             string line;
-            if (File.Exists(FileName + "Percentage.txt"))
+            if (File.Exists(FileName + "Percentage.dat"))
             {
-                StreamReader sr = new StreamReader(FileName + "Percentage.txt");
+                StreamReader sr = new StreamReader(FileName + "Percentage.dat");
 
                 try
                 {
@@ -84,7 +84,7 @@ namespace CropMonitoring.Model
                 MessageBox.Show("Дані провінції " + FileName + " записано в таблицю!");
             }
 
-            else { MessageBox.Show("Файл з іменем " + FileName + ".txt відсутній!"); }
+            else { MessageBox.Show("Файл з іменем " + FileName + ".dat відсутній!"); }
 
         }
     }

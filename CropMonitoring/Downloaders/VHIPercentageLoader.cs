@@ -35,7 +35,7 @@ namespace CropMonitoring.Downloaders
             int count = 0;
             return Task.Factory.StartNew(() =>
             {
-                StreamWriter sw = new StreamWriter(FileName + "Percentage.txt");
+                StreamWriter sw = new StreamWriter(FileName + "Percentage.dat");
                 Stream stream = Download(ProvinceId);
                 try
                 {

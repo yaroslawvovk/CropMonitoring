@@ -44,9 +44,9 @@ namespace CropMonitoring.Model
             _vhiData = new ObservableCollection<VHIData>();
             string[] parsedData;
             string line;
-            if (File.Exists(FileName + ".txt"))
+            if (File.Exists(FileName + ".dat"))
             {
-                StreamReader sr = new StreamReader(FileName + ".txt");
+                StreamReader sr = new StreamReader(FileName + ".dat");
 
                 try
                 {
@@ -77,7 +77,7 @@ namespace CropMonitoring.Model
                 MessageBox.Show("Дані провінції " + FileName + " записано в таблицю!");
             }
 
-            else { MessageBox.Show("Файл з іменем " + FileName + ".txt відсутній!"); }
+            else { MessageBox.Show("Файл з іменем " + FileName + ".dat відсутній!"); }
 
         }
         public static double SelectByYearWeek(int year,int week, string FileName)
@@ -85,9 +85,9 @@ namespace CropMonitoring.Model
             double result = 0;
             string[] parsedData;
             string line;
-            if (File.Exists(FileName + ".txt"))
+            if (File.Exists(FileName + ".dat"))
             {
-                StreamReader sr = new StreamReader(FileName + ".txt");
+                StreamReader sr = new StreamReader(FileName + ".dat");
                 try
                 {
                     _dateLoad = sr.ReadLine();
@@ -120,9 +120,9 @@ namespace CropMonitoring.Model
             string FileName = "Weeks";
             string[] parsedData;
             string line;
-            if (File.Exists(FileName + ".txt"))
+            if (File.Exists(FileName + ".dat"))
             {
-                StreamReader sr = new StreamReader(FileName + ".txt");
+                StreamReader sr = new StreamReader(FileName + ".dat");
                 try
                 {
                     while ((line = sr.ReadLine()) != null)

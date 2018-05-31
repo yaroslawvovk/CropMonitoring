@@ -13,7 +13,7 @@ namespace CropMonitoring.Downloaders
 {
     class VHIDataLoader : Loader
     {
-
+        private Object thisLock = new Object();
         private ProgressBar pbar;
         private const string partTypeData = "&year1=1981&year2=2018&type=Mean";
         public VHIDataLoader(ProgressBar pbar)
@@ -32,15 +32,17 @@ namespace CropMonitoring.Downloaders
 
         public override Task DownloadAndSaveData(string FileName, string ProvinceId)
         {
-            int count = 0;           
+
+            int count = 0;               
             return Task.Factory.StartNew(() =>
             {
-                StreamWriter sw = new StreamWriter(FileName + ".txt");
+                try
+                {
+                    StreamWriter sw = new StreamWriter(FileName + ".dat");
 
                 Stream stream = Download(ProvinceId);
 
-                try
-                {
+               
                     StreamReader streamReader = new StreamReader(stream);
                     string line;
                     streamReader.ReadLine();
@@ -76,6 +78,7 @@ namespace CropMonitoring.Downloaders
                 }
             }
             );
+                
         }
 
 
