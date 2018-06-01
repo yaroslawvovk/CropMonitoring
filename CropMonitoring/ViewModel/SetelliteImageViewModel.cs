@@ -27,18 +27,6 @@ namespace CropMonitoring.ViewModel
             }
         }
 
-        //string _imageFile;
-        //public string ImageFile
-        //{
-        //    get
-        //    {
-        //        return _imageFile;
-        //    }
-        //    set
-        //    {
-        //        _imageFile = value;
-        //    }
-        //}
         BitmapImage _bitmapImage;
         public BitmapImage BitmapImage
         {
@@ -51,7 +39,6 @@ namespace CropMonitoring.ViewModel
                 _bitmapImage = value;
             }
         }
-
 
         string _selectedFileName;
         public string SelectedFileName
@@ -71,6 +58,7 @@ namespace CropMonitoring.ViewModel
             }
         }
 
+        #region Async handle image
         RelayCommand _calculateNDVI;
         public ICommand CalculateNDVI
         {
@@ -85,7 +73,7 @@ namespace CropMonitoring.ViewModel
         {
 
             var bands = imageAccess.GetBandsPath(_selectedFileName);
-            LandsatImageProcessor imgProc = new LandsatImageProcessor();
+            LandsatImageProcessor1 imgProc = new LandsatBitmapPaletteWriter();
             imgProc.statusEvent += ImgProc_statusEvent;
 
             if (bands.band3 != null && bands.band4 != null && bands.outImg != null)
@@ -98,6 +86,13 @@ namespace CropMonitoring.ViewModel
             }
 
 
+        }
+
+        public bool CanCalculateNDVIImageCommand(object parameter)
+        {
+            if (_selectedFileName == null)
+                return false;
+            return true;
         }
 
         int _progressValue;
@@ -118,13 +113,65 @@ namespace CropMonitoring.ViewModel
             ProgressValue = e.Status;
             OnPropertyChanged("ProgressValue");
         }
+        #endregion
 
-        public bool CanCalculateNDVIImageCommand(object parameter)
+        #region Async handle image two
+        RelayCommand _calculateNDVI2;
+        public ICommand CalculateNDVI2
+        {
+            get
+            {
+                if (_calculateNDVI2 == null)
+                    return new RelayCommand(CalculateNDVIImageCommand2, CanCalculateNDVIImageCommand2);
+                return _calculateNDVI2;
+            }
+        }
+        public async void CalculateNDVIImageCommand2(object parameter)
+        {
+
+            var bands = imageAccess.GetBandsPath(_selectedFileName);
+            LandsatImageProcessor1 imgProc2 = new LandsatRasterPaletteWriter();
+            imgProc2.statusEvent += ImgProc_statusEvent2;
+
+            if (bands.band3 != null && bands.band4 != null && bands.outImg != null)
+            {
+                await Task.Factory.StartNew(() =>
+                imgProc2.CalculateNDVI(bands.band3, bands.band4, bands.outImg)
+                );
+                NDVIImageList = imageAccess.GetOutputImageFiles();
+                OnPropertyChanged("NDVIImageList");
+            }
+
+
+        }
+
+        public bool CanCalculateNDVIImageCommand2(object parameter)
         {
             if (_selectedFileName == null)
                 return false;
             return true;
         }
+
+        int _progressValue2;
+        public int ProgressValue2
+        {
+            get
+            {
+                return _progressValue2;
+            }
+            set
+            {
+                _progressValue2 = value;
+            }
+        }
+
+        private void ImgProc_statusEvent2(object sender, ThresholdReachedEventArgs e)
+        {
+            ProgressValue2 = e.Status;
+            OnPropertyChanged("ProgressValue2");
+        }
+
+        #endregion
 
         List<string> _ndviImageList;
         public List<string> NDVIImageList
@@ -183,6 +230,27 @@ namespace CropMonitoring.ViewModel
             return true;
         }
 
+
+        RelayCommand _refreshLists;
+        public ICommand RefreshList
+        {
+            get
+            {
+                if (_refreshLists == null)
+                    return new RelayCommand(RefreshListCommand, CanRefreshList);
+                return _refreshLists;
+            }
+        }
+
+        public void RefreshListCommand(object parameter)
+        {
+            _ndviImageList = imageAccess.GetOutputImageFiles();
+            OnPropertyChanged("NDVIImageList");
+        }
+        public bool CanRefreshList(object parameter)
+        {
+            return true;
+        }
 
 
     }

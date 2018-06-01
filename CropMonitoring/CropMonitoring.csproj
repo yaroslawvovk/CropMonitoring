@@ -95,6 +95,8 @@
     </Compile>
     <Compile Include="DataWorkers\DroughtDataWorker.cs" />
     <Compile Include="DataWorkers\VHIDataWorker.cs" />
+    <Compile Include="Downloaders\Loader1.cs" />
+    <Compile Include="Downloaders\VHIDataLoader1.cs" />
     <Compile Include="GdalConfiguration.cs" />
     <Compile Include="Graphics\MapColorWorker.cs" />
     <Compile Include="Graphics\SVGParser.cs" />
@@ -117,7 +119,10 @@
     <Compile Include="Pages\Visualization.xaml.cs">
       <DependentUpon>Visualization.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SetelliteImageProcessor\LandsatBitmapPaletteWriter.cs" />
     <Compile Include="SetelliteImageProcessor\LandsatImageProcessor.cs" />
+    <Compile Include="SetelliteImageProcessor\LandsatImageProcessor1.cs" />
+    <Compile Include="SetelliteImageProcessor\LandsatRasterPaletteWriter.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\SetelliteImageViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

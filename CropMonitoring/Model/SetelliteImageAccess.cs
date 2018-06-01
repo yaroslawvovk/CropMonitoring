@@ -62,14 +62,21 @@ namespace CropMonitoring.Model
         public BitmapImage GetBitmapImage(string fileName)
         {          
             string concpath = folderPath + "\\" + fileName;
-            if (File.Exists(concpath))
+            try
             {
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = new Uri(concpath);
-                image.EndInit();
-                return image;
+                if (File.Exists(concpath))
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.UriSource = new Uri(concpath);
+                    image.EndInit();
+                    return image;
+                }
+            }
+            catch (Exception e)
+            {
+
             }
             return null;
         }
@@ -87,15 +94,23 @@ namespace CropMonitoring.Model
         public BitmapImage GetBitmapNDVIImage(string fileName)
         {
             string concpath = folderOutPath + "\\" + fileName;
-            if (File.Exists(concpath))
+            try
             {
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = new Uri(concpath);
-                image.EndInit();
-                return image;
+                if (File.Exists(concpath))
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.UriSource = new Uri(concpath);
+                    image.EndInit();
+                    return image;
+                }
             }
+            catch (Exception e)
+            {
+
+            }
+            
             return null;
         }
 

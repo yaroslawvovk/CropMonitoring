@@ -38,10 +38,17 @@
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition  Width="0.94*"></ColumnDefinition>
-                <ColumnDefinition   Width="0.06*"></ColumnDefinition>
+                <ColumnDefinition  Width="0.88*"></ColumnDefinition>
+                <ColumnDefinition  Width="0.06*"></ColumnDefinition>
+                <ColumnDefinition  Width="0.06*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
+            <GroupBox  Grid.Column="2" Header="Status2">
+                <Grid >
+                    <ProgressBar  Width="Auto" Height="Auto" Style="{DynamicResource pbarCircularStyle}"
+                     Value="{Binding ProgressValue2}"  />
+                </Grid>
+            </GroupBox >
             <GroupBox  Grid.Column="1" Header="Status">
                 <Grid >
                     <ProgressBar  Width="Auto" Height="Auto" Style="{DynamicResource pbarCircularStyle}"
@@ -62,24 +69,30 @@
             </Grid.ColumnDefinitions>
 
             <GroupBox Grid.Column="0" Header="Tools" BorderBrush="Black" BorderThickness="2">
+
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="4*"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="4*"></RowDefinition>
+                        <RowDefinition Height="0.05*"></RowDefinition>
+                        <RowDefinition Height="0.4*"></RowDefinition>
+                        <RowDefinition Height="0.2*"></RowDefinition>
+                        <RowDefinition Height="0.35*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <GroupBox Grid.Row="0" Header="Input images" BorderBrush="Black" BorderThickness="2">
+                    <Button Grid.Row="0" x:Name="btnRefresh" Content="Refresh" Height="25" Command="{Binding RefreshList}"/>
+
+                    <GroupBox Grid.Row="1" Header="Input images" BorderBrush="Black" BorderThickness="2">
                         <ListBox x:Name="lsBoxInputImages"  BorderThickness="0" 
                         ItemsSource="{Binding ImageFiles}" SelectedItem="{Binding SelectedFileName,Mode=TwoWay}">
                         </ListBox>
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Header="Input images" BorderBrush="Black" BorderThickness="2">
-                        <Button Name="btnCalculate" Height="30" Content="Calculate NDVI" Command="{Binding CalculateNDVI}"/>
-
+                    <GroupBox Grid.Row="2" Header="Input images" BorderBrush="Black" BorderThickness="2">
+                        <StackPanel>
+                            <Button Name="btnCalculate" Height="30" Content="Calculate NDVI (P1)" Command="{Binding CalculateNDVI}"/>
+                            <Button Name="btnCalculate2" Height="30" Margin="0,5" Content="Calculate NDVI (P2)" Command="{Binding CalculateNDVI2}"/>
+                        </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="2" Header="Input images" BorderBrush="Black" BorderThickness="2">
+                    <GroupBox Grid.Row="3" Header="Input images" BorderBrush="Black" BorderThickness="2">
                         <!--<ListBox x:Name="lsBoxOutputImages"  BorderThickness="0" 
                         ItemsSource="{Binding NDVIImageList}" SelectedItem="{Binding SelectedNDVIImage,Mode=TwoWay}">
                             <ListBox.ContextMenu>

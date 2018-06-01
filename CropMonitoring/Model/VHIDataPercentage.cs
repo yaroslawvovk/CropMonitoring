@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace CropMonitoring.Model
     class VHIDataPercentage
     {
         public int Year { get; set; }
-        public int Week{ get; set; }
+        public int Week{ get; set; }      
         public double _0 { get; set; }
         public double _5 { get; set; }
         public double _10 { get; set; }

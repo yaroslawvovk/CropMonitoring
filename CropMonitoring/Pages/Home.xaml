@@ -227,7 +227,10 @@
             <GroupBox Header="Work with data" Margin="10" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0">
                 <StackPanel>
                     <StackPanel >
-                        <ComboBox Name="comBoxAreas" SelectedIndex="0" SelectedValuePath="Key" DisplayMemberPath="Value" ItemsSource="{Binding Source={StaticResource Choices}}" />
+                        <ComboBox Name="comBoxAreas" SelectedIndex="0" SelectedValuePath="Key" DisplayMemberPath="Value" 
+                                  ItemsSource="{Binding Source={StaticResource Choices}}"
+                                  SelectedValue="{Binding SelectedComBoxValue}"
+                                  Text="{Binding SelectedComBoxText}"/>
                         <Button  Content="Download" Height="30" Margin="0,10" Click="Download_Click" />
                         <Button Name="btnShow"  Content="Show" VerticalAlignment="Top" Margin="0,0" Height="30"
                         Command="{Binding GetVHIData}"
@@ -357,7 +360,34 @@
 
         <ProgressBar x:Name="ProgressBar" Grid.Column="1"  Grid.Row="0"  VerticalAlignment="Top" Height="20" Minimum="0" Maximum="100" Value="0"  />
         <DataGrid x:Name="DataGridXaml"  Grid.Column="1"  Grid.Row="0" Margin="0,30,0,0" ItemsSource="{Binding VHIData}"/>
-        <DataGrid x:Name="DataGridXamlPercetage"  Grid.Column="1"  Grid.Row="1" Margin="0,5,0,0" ItemsSource="{Binding VHIDataPercentage}"/>
-        
+        <DataGrid x:Name="DataGridXamlPercetage"  Grid.Column="1"  Grid.Row="1" AutoGenerateColumns="False" Margin="0,5,0,0" ItemsSource="{Binding VHIDataPercentage}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Year" Binding="{Binding Year}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Week" Binding="{Binding Week}"></DataGridTextColumn>
+                <DataGridTextColumn Header="0%" Binding="{Binding _0}"></DataGridTextColumn>
+                <DataGridTextColumn Header="5%" Binding="{Binding _5}"></DataGridTextColumn>
+                <DataGridTextColumn Header="10%" Binding="{Binding _10}"></DataGridTextColumn>
+                <DataGridTextColumn Header="15%" Binding="{Binding _15}"></DataGridTextColumn>
+                <DataGridTextColumn Header="20%" Binding="{Binding _20}"></DataGridTextColumn>
+                <DataGridTextColumn Header="25%" Binding="{Binding _25}"></DataGridTextColumn>
+                <DataGridTextColumn Header="30%" Binding="{Binding _30}"></DataGridTextColumn>
+                <DataGridTextColumn Header="35%" Binding="{Binding _35}"></DataGridTextColumn>
+                <DataGridTextColumn Header="40%" Binding="{Binding _40}"></DataGridTextColumn>
+                <DataGridTextColumn Header="45%" Binding="{Binding _45}"></DataGridTextColumn>
+                <DataGridTextColumn Header="50%" Binding="{Binding _50}"></DataGridTextColumn>
+                <DataGridTextColumn Header="55%" Binding="{Binding _55}"></DataGridTextColumn>
+                <DataGridTextColumn Header="60%" Binding="{Binding _60}"></DataGridTextColumn>
+                <DataGridTextColumn Header="65%" Binding="{Binding _65}"></DataGridTextColumn>
+                <DataGridTextColumn Header="70%" Binding="{Binding _70}"></DataGridTextColumn>
+                <DataGridTextColumn Header="75%" Binding="{Binding _75}"></DataGridTextColumn>
+                <DataGridTextColumn Header="80%" Binding="{Binding _80}"></DataGridTextColumn>
+                <DataGridTextColumn Header="85%" Binding="{Binding _85}"></DataGridTextColumn>
+                <DataGridTextColumn Header="90%" Binding="{Binding _90}"></DataGridTextColumn>
+                <DataGridTextColumn Header="95%" Binding="{Binding _95}"></DataGridTextColumn>
+                <DataGridTextColumn Header="100%" Binding="{Binding _100}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
     </Grid>
 </UserControl>

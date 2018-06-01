@@ -68,3 +68,4 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\Visuali
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.g.resources
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.exe
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.pdb
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache

@@ -1,104 +1,19 @@
-﻿using OSGeo.GDAL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OSGeo.GDAL;
+using System.Drawing.Imaging;
 
 namespace CropMonitoring.SetelliteImageProcessor
 {
-    
-
-    class LandsatImageProcessor
+    class LandsatRasterPaletteWriter : LandsatImageProcessor1
     {
-        public event EventHandler<ThresholdReachedEventArgs> statusEvent;
-
-        private Driver drv;
-
-        private const int iOverview = 1;
-
-        public LandsatImageProcessor()
+        protected override void SaveBitmapGrayBuffered(Dataset ds, Dataset nirDataset, string filename, int iOverview)
         {
-            GdalConfiguration.ConfigureGdal();
-            GdalConfiguration.ConfigureOgr();
-            Gdal.AllRegister();
-        }
-
-        protected virtual void OnProgressStatus(ThresholdReachedEventArgs e)
-        {
-            statusEvent?.Invoke(this, e);
-        }
-
-        protected virtual void CheckStatus(int progressScale, ThresholdReachedEventArgs args, ref int progressCounter)
-        {
-            if (progressCounter == progressScale)
-            {
-                args.Status++;
-                progressCounter = 0;
-                OnProgressStatus(args);
-
-            }
-            progressCounter++;
-
-        }
-
-        public void CalculateNDVI(string redSetPath, string nirSetPath, string outImage)
-        {
-
-            try
-            {
-                Dataset redDateset = Gdal.Open(redSetPath, Access.GA_ReadOnly);
-                Dataset nirDataset = Gdal.Open(nirSetPath, Access.GA_ReadOnly);
-
-                if (redDateset == null)
-                {
-                    System.Environment.Exit(-1);
-                }
-
-
-                drv = redDateset.GetDriver();
-
-                if (drv == null)
-                {
-                    System.Environment.Exit(-1);
-                }
-
-
-                for (int iBand = 1; iBand <= redDateset.RasterCount; iBand++)
-                {
-                    Band band = redDateset.GetRasterBand(iBand);
-                    Band nirBand = nirDataset.GetRasterBand(iBand);
-                    for (int iOver = 0; iOver < band.GetOverviewCount(); iOver++)
-                    {
-                        Band over = band.GetOverview(iOver);
-                        Band over1 = nirBand.GetOverview(iOver);
-                    }
-                }
-
-                SaveBitmapBuffered(redDateset, nirDataset, outImage, iOverview);
-            }
-            catch (Exception e)
-            {
-
-            }
-
-        }
-
-        private void SaveBitmapBuffered(Dataset redDateset, Dataset nirDataset, string filename, int iOverview)
-        {
-            Band redBand = redDateset.GetRasterBand(1);
-
-
-            if (redBand.GetRasterColorInterpretation() == ColorInterp.GCI_GrayIndex)
-            {
-                SaveBitmapGrayBuffered(redDateset, nirDataset, filename, iOverview);
-                return;
-            }
-        }
-        private void SaveBitmapGrayBuffered(Dataset ds, Dataset nirDataset, string filename, int iOverview)
-        {
+            filename = GetOutImageName(filename);
             ThresholdReachedEventArgs args = new ThresholdReachedEventArgs();
             Band band = ds.GetRasterBand(1);
             Band nirBand = nirDataset.GetRasterBand(1);
@@ -122,7 +37,7 @@ namespace CropMonitoring.SetelliteImageProcessor
             nirBand.ReadRaster(0, 0, width, height, nir, width, height, 0, 0);
 
             int i, j;
-            double ndvi = 0;     
+            double ndvi = 0;
             int progressScale = width / 100;
             int progressCounter = 0;
             try
@@ -146,7 +61,7 @@ namespace CropMonitoring.SetelliteImageProcessor
                         //b1[i + j * width] = color.B;
                         //g1[i + j + width] = color.G;
                         //bitmap.SetPixel(i, j, SetColor(ndvi));
-                        bitmap.SetPixel(i, j, SetColor2(ndvi));
+                        bitmap.SetPixel(i, j, SetColor(ndvi));
                     }
                 }
 
@@ -164,73 +79,13 @@ namespace CropMonitoring.SetelliteImageProcessor
             catch (Exception e)
             {
 
-            }           
+            }
             bitmap.Save(filename);
         }
 
-        public static Color SetColor(double ndvi)
+        protected override Color SetColor(double ndvi)
         {
-            if (ndvi <= -0.2)
-            {
-                return Color.DarkCyan;
-            }
-            else if (ndvi == 0)
-            {
-                return Color.Black;
-            }
-            else if (ndvi > -0.2 && ndvi <= -0.1)
-            {
-                return Color.White;
-            }
-            else if (ndvi > -0.1 && ndvi <= 0)
-            {
-                return Color.Gray;
-            }
-            else if (ndvi > 0 && ndvi <= 0.1)
-            {
-                return Color.DarkBlue;
-            }
-            else if (ndvi > 0.1 && ndvi <= 0.2)
-            {
-                return Color.Blue;
-            }
-            else if (ndvi > 0.2 && ndvi <= 0.3)
-            {
-                return Color.DarkGreen;
-            }
-            else if (ndvi > 0.3 && ndvi <= 0.4)
-            {
-                return Color.Green;
-            }
-            else if (ndvi > 0.4 && ndvi <= 0.5)
-            {
-                return Color.LightGreen;
-            }
-            else if (ndvi > 0.5 && ndvi <= 0.6)
-            {
-                return Color.Yellow;
-            }
-            else if (ndvi > 0.6 && ndvi <= 0.7)
-            {
-                return Color.LightYellow;
-            }
-            else if (ndvi > 0.7 && ndvi <= 0.8)
-            {
-                return Color.Red;
-            }
-            else if (ndvi > 0.8 && ndvi <= 0.9)
-            {
-                return Color.OrangeRed;
-            }
-            else if (ndvi > 0.9 && ndvi <= 1)
-            {
-                return Color.OrangeRed;
-            }
-            return Color.Black;
-        }
-        public static Color SetColor2(double ndvi)
-        {
-            if (ndvi <= -0.2)
+            if(ndvi <= -0.2)
             {
                 //return Color.DarkCyan;
                 return Color.Black;
@@ -291,5 +146,13 @@ namespace CropMonitoring.SetelliteImageProcessor
             }
             return Color.Green;
         }
+        protected override string GetOutImageName(string filename)
+        {
+            int index = filename.LastIndexOf('\\');
+            string oldName = filename.Substring(index + 1);
+            string newName = "P2_" + filename.Substring(index + 1);
+            return filename.Replace(oldName, newName);
+        }
     }
+    
 }

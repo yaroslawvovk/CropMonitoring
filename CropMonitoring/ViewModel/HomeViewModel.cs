@@ -138,7 +138,7 @@ namespace CropMonitoring.ViewModel
                 return false;
             return true;
         }
-        
+
         DataPoint[] _dataSeries;
         public DataPoint[] DataSeries
         {
@@ -155,7 +155,8 @@ namespace CropMonitoring.ViewModel
         RelayCommand _makePlot;
         public ICommand MakePlot
         {
-            get {
+            get
+            {
                 if (_makePlot == null)
                     _makePlot = new RelayCommand(ExecuteGetPlotSeriesCommand, CanExecuteGetPlotSeriesCommand);
                 return _makePlot;
@@ -307,12 +308,67 @@ namespace CropMonitoring.ViewModel
                 isModerate = param.Item2;
                 CombData = !isModerate ? dWorker.GetExtreamYears(VHIDataPercentage, VHIData, percent) : dWorker.GetModerateYears(VHIDataPercentage, VHIData, percent);
                 OnPropertyChanged("CombData");
-            }  
+            }
         }
         public bool CanGetDroughtYear(object parameter)
         {
             return true;
         }
+
+        object _selectedComBoxValue;
+        public object SelectedComBoxValue
+        {
+            get
+            {
+                if (_selectedComBoxValue != null)
+                    return _selectedComBoxValue;
+                return null;
+            }
+            set
+            {
+                _selectedComBoxValue = value;
+            }
+        }
+
+        string _selectedComBoxText;
+        public string SelectedComBoxText
+        {
+            get
+            {
+                if (_selectedComBoxText != null)
+                    return _selectedComBoxText;
+                return null;
+            }
+            set
+            {
+                _selectedComBoxText = value;
+            }
+        }
+
+        RelayCommand _downloadData;
+        public ICommand DownloadData
+        {
+           get
+            {
+                if (_downloadData == null)
+                    return new RelayCommand(DownloadDataAsync, CanDownloadDataAsync);
+                return _downloadData;
+            }
+        }
+
+        public async void DownloadDataAsync(object parameter)
+        {
+            await load.DownloadAndSaveData(_value, _key);
+            await load2.DownloadAndSaveData(_value, _key);
+        }
+        public bool CanDownloadDataAsync(object parameter)
+        {
+            if (_selectedComBoxValue != null && _selectedComBoxText != null)
+                return true;
+            return false;
+        }
+
+
 
 
     }
