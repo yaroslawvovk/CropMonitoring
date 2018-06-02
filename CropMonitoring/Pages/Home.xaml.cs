@@ -29,20 +29,7 @@ namespace CropMonitoring.Pages
 
             this.DataContext = new HomeViewModel();
             ObjectDataProvider o = new ObjectDataProvider();
-        }
-
-        private async void Download_Click(object sender, RoutedEventArgs e)
-        {
-            ProgressBar.Value = 0;
-            Loader load = new VHIDataLoader(ProgressBar);
-            Loader load2 = new VHIPercentageLoader(ProgressBar);
-
-
-            string _key = comBoxAreas.SelectedValue.ToString();
-            string _value = comBoxAreas.Text;
-            await load.DownloadAndSaveData(_value, _key);
-            await load2.DownloadAndSaveData(_value, _key);
-        }
+        }    
     }
    
 

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using CropMonitoring.Helpers;
+using CropMonitoring.UserNotify;
 
 namespace CropMonitoring.Model
 {
@@ -41,16 +43,21 @@ namespace CropMonitoring.Model
 
         public static void ReadFromFile(string FileName)
         {
+            INotifyUser notify = new NotifyMessage();
             _vhiData = new ObservableCollection<VHIData>();
             string[] parsedData;
             string line;
-            if (File.Exists(FileName + ".dat"))
+            string outputPath = OutputDirectoryCreator.GetOutVHIPath(FileName);
+
+            if (File.Exists(outputPath))
             {
-                StreamReader sr = new StreamReader(FileName + ".dat");
+                StreamReader sr = new StreamReader(outputPath);
+
+
 
                 try
-                {
-                    _dateLoad = sr.ReadLine();
+                {                 
+                    _dateLoad = sr.ReadLine();                 
                     while ((line = sr.ReadLine()) != null)
                     {
 
@@ -70,26 +77,28 @@ namespace CropMonitoring.Model
 
 
                 }
+                catch (Exception e) {
 
-                catch (Exception) { }
+                }
 
-                sr.Close();
-                MessageBox.Show("Дані провінції " + FileName + " записано в таблицю!");
+                sr.Close();               
             }
 
-            else { MessageBox.Show("Файл з іменем " + FileName + ".dat відсутній!"); }
+            else { notify.Message("File -  " + FileName + ".dat is missing!"); }
 
         }
         public static double SelectByYearWeek(int year,int week, string FileName)
         {
+            string outputPath = OutputDirectoryCreator.GetOutVHIPath(FileName);
             double result = 0;
             string[] parsedData;
             string line;
-            if (File.Exists(FileName + ".dat"))
+            if (File.Exists(outputPath))
             {
-                StreamReader sr = new StreamReader(FileName + ".dat");
+                StreamReader sr = null;
                 try
                 {
+                    sr = new StreamReader(outputPath);
                     _dateLoad = sr.ReadLine();
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -107,7 +116,7 @@ namespace CropMonitoring.Model
 
                 }
 
-                catch (Exception) { }
+                catch (Exception) { return 0; }
 
                 sr.Close();
             }

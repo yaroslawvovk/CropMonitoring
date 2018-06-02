@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace CropMonitoring.Helpers
+namespace CropMonitoring.Graphics
 {
     class CircularProgress : Shape
     {
@@ -37,10 +37,10 @@ namespace CropMonitoring.Helpers
 
         private static FrameworkPropertyMetadata valueMetadata =
                 new FrameworkPropertyMetadata(
-                    0.0,     
+                    0.0,
                     FrameworkPropertyMetadataOptions.AffectsRender,
-                    null,   
-                    new CoerceValueCallback(CoerceValue));  
+                    null,
+                    new CoerceValueCallback(CoerceValue));
 
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value", typeof(double), typeof(CircularProgress), valueMetadata);
@@ -75,16 +75,16 @@ namespace CropMonitoring.Helpers
                     ctx.BeginFigure(
                         new Point((RenderSize.Width / 2.0) + xStart,
                                   (RenderSize.Height / 2.0) - yStart),
-                        true,   
-                        false);  
+                        true,
+                        false);
                     ctx.ArcTo(
                         new Point((RenderSize.Width / 2.0) + xEnd,
                                   (RenderSize.Height / 2.0) - yEnd),
                         new Size(maxWidth / 2.0, maxHeight / 2),
-                        0.0,     
-                        (startAngle - endAngle) > 180,   
+                        0.0,
+                        (startAngle - endAngle) > 180,
                         SweepDirection.Clockwise,
-                        true,    
+                        true,
                         false);
                 }
                 return geom;

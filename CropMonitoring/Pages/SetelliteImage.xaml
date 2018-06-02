@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:local="clr-namespace:CropMonitoring.Helpers"
+             xmlns:graphics="clr-namespace:CropMonitoring.Graphics"
              mc:Ignorable="d" 
               d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
@@ -21,7 +22,7 @@
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                    FontSize="15" Foreground="DarkGray"
                                    Text="{TemplateBinding Value, Converter={StaticResource dblToPct}}" />
-                            <local:CircularProgress Stroke="{TemplateBinding Foreground}"
+                            <graphics:CircularProgress Stroke="{TemplateBinding Foreground}"
                                               Value="{TemplateBinding Value}"/>
                         </Grid>
                     </ControlTemplate>
@@ -43,13 +44,13 @@
                 <ColumnDefinition  Width="0.06*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <GroupBox  Grid.Column="2" Header="Status2">
+            <GroupBox  Grid.Column="2" Header="Status2" BorderBrush="Black" BorderThickness="2" >
                 <Grid >
                     <ProgressBar  Width="Auto" Height="Auto" Style="{DynamicResource pbarCircularStyle}"
                      Value="{Binding ProgressValue2}"  />
                 </Grid>
             </GroupBox >
-            <GroupBox  Grid.Column="1" Header="Status">
+            <GroupBox  Grid.Column="1" Header="Status" BorderBrush="Black" BorderThickness="2" >
                 <Grid >
                     <ProgressBar  Width="Auto" Height="Auto" Style="{DynamicResource pbarCircularStyle}"
                      Value="{Binding ProgressValue}"  />
@@ -72,17 +73,32 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.05*"></RowDefinition>
+                        <RowDefinition Height="0.08*"></RowDefinition>
                         <RowDefinition Height="0.4*"></RowDefinition>
-                        <RowDefinition Height="0.2*"></RowDefinition>
-                        <RowDefinition Height="0.35*"></RowDefinition>
+                        <RowDefinition Height="0.18*"></RowDefinition>
+                        <RowDefinition Height="0.34*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0" x:Name="btnRefresh" Content="Refresh" Height="25" Command="{Binding RefreshList}"/>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" x:Name="btnRefresh" Margin="3,0" Content="Refresh" Height="27" Command="{Binding RefreshList}"/>
+                        <Button Grid.Column="1" x:Name="btnOpen" Margin="3,0" Content="Open" Height="27" Command="{Binding OpenImages}"/>
+                    </Grid>
+                    
+                    
 
                     <GroupBox Grid.Row="1" Header="Input images" BorderBrush="Black" BorderThickness="2">
                         <ListBox x:Name="lsBoxInputImages"  BorderThickness="0" 
                         ItemsSource="{Binding ImageFiles}" SelectedItem="{Binding SelectedFileName,Mode=TwoWay}">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Remove"
+                                        Command="{Binding DeleteImage}" />
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
                         </ListBox>
                     </GroupBox>
                     <GroupBox Grid.Row="2" Header="Input images" BorderBrush="Black" BorderThickness="2">
@@ -93,33 +109,16 @@
                     </GroupBox>
 
                     <GroupBox Grid.Row="3" Header="Input images" BorderBrush="Black" BorderThickness="2">
-                        <!--<ListBox x:Name="lsBoxOutputImages"  BorderThickness="0" 
-                        ItemsSource="{Binding NDVIImageList}" SelectedItem="{Binding SelectedNDVIImage,Mode=TwoWay}">
-                            <ListBox.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Remove"
-                                        Command="{Binding DeleteCommand}"
-                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                                </ContextMenu>
-                            </ListBox.ContextMenu>
-                        </ListBox>-->
                         <ListBox x:Name="lsBoxOutputImages"  BorderThickness="0" ItemsSource="{Binding NDVIImageList}" SelectedItem="{Binding SelectedNDVIImage}">
                             <ListBox.ContextMenu>
                                 <ContextMenu>
+                                    <MenuItem Header="Select"
+                                        Command="{Binding SelectCommand}" />
                                     <MenuItem Header="Remove"
-                                        Command="{Binding DeleteCommand}" />
+                                        Command="{Binding DeleteNDVICommand}" />
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                         </ListBox>
-                        <!--<ListView x:Name="itemsListView" ItemsSource="{Binding  NDVIImageList}">
-                            <ListView.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Remove"
-                                    Command="{Binding DeleteCommand}"
-                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                                </ContextMenu>
-                            </ListView.ContextMenu>
-                        </ListView>-->
                     </GroupBox>
                 </Grid>
                 
@@ -129,9 +128,9 @@
             
 
             <GroupBox Grid.Column="1" Header="Landsat image" BorderBrush="Black" BorderThickness="2">
-                <local:ZoomBorder x:Name="border" ClipToBounds="True" Background="Gray">
+                <graphics:ZoomBorder x:Name="border" ClipToBounds="True" Background="Gray">
                     <Image Name="imgLandsat" Source="{Binding BitmapImage}" HorizontalAlignment="Stretch" />
-                </local:ZoomBorder>
+                </graphics:ZoomBorder>
             </GroupBox>
 
         </Grid>

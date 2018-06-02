@@ -69,7 +69,9 @@ namespace CropMonitoring.DataWorkers
             }
 
             catch (Exception ex)
-            { }
+            {
+
+            }
 
             return _combdata;
         }

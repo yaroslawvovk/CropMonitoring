@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using CropMonitoring.Helpers;
+using CropMonitoring.UserNotify;
+
 
 namespace CropMonitoring.Model
 {
@@ -32,16 +35,21 @@ namespace CropMonitoring.Model
 
         public static void ReadFromFile(string FileName)
         {
+            INotifyUser notify = new NotifyMessage();
             _vhiDataPercentage = new ObservableCollection<VHIDataPercentage>();
+            string outputPath = OutputDirectoryCreator.GetOutVHIPercentagePath(FileName);
             string[] parsedData;
             string line;
-            if (File.Exists(FileName + "Percentage.dat"))
+            if (File.Exists(outputPath))
             {
-                StreamReader sr = new StreamReader(FileName + "Percentage.dat");
+                StreamReader sr = new StreamReader(outputPath);
 
                 try
                 {
+                    //if (new FileInfo(outputPath).Length == 0)
+                    //    throw new Exception("No data in file!");
                     _dateLoad = sr.ReadLine();
+
                     while ((line = sr.ReadLine()) != null)
                     {
 
@@ -78,13 +86,15 @@ namespace CropMonitoring.Model
 
                 }
 
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                }
 
-                sr.Close();
-                MessageBox.Show("Дані провінції " + FileName + " записано в таблицю!");
+                    sr.Close();
+                notify.Message("Data of  " + FileName + " has been written in table!");
             }
 
-            else { MessageBox.Show("Файл з іменем " + FileName + ".dat відсутній!"); }
+            else { notify.Message("File -  " + FileName + ".dat is missing!"); }
 
         }
     }

@@ -231,7 +231,7 @@
                                   ItemsSource="{Binding Source={StaticResource Choices}}"
                                   SelectedValue="{Binding SelectedComBoxValue}"
                                   Text="{Binding SelectedComBoxText}"/>
-                        <Button  Content="Download" Height="30" Margin="0,10" Click="Download_Click" />
+                        <Button  Content="Download" Height="30" Margin="0,10" Command="{Binding DownloadData}" />
                         <Button Name="btnShow"  Content="Show" VerticalAlignment="Top" Margin="0,0" Height="30"
                         Command="{Binding GetVHIData}"
                         CommandParameter="{Binding Text, ElementName=comBoxAreas}"/>
@@ -242,7 +242,7 @@
             <GroupBox Header="Extremum for year" Margin="10" VerticalAlignment="Stretch"  Grid.Column="0" Grid.Row="1">
                 <StackPanel>
                     <StackPanel >
-                        <TextBox Name="txtYear" Style="{StaticResource placeHolder}" Tag="Рік" />
+                        <TextBox Name="txtYear" Style="{StaticResource placeHolder}" Tag="Year" />
                         <Button Name="btnGetExtremum"  Content="Get Extremums" VerticalAlignment="Top" Margin="0,10" Height="30" 
                           Command="{Binding GetExtremum}"
                         CommandParameter="{Binding Text, ElementName=txtYear}" />
@@ -281,14 +281,14 @@
                         <RowDefinition Height="1*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" >
-                        <TextBox Name="txtYearPlot" Style="{StaticResource placeHolder}" Tag="Рік1" />
-                        <Button Name="btnPlot"  Content="Series1" VerticalAlignment="Top" Height="30"
+                        <TextBox Name="txtYearPlot" Style="{StaticResource placeHolder}" Tag="Year1" />
+                        <Button Name="btnPlot" Background="Black" BorderBrush="White"  Content="Series1" VerticalAlignment="Top" Height="30"
                         Command="{Binding MakePlot}"
                         CommandParameter="{Binding Text, ElementName=txtYearPlot}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox Name="txtYearPlot2" Style="{StaticResource placeHolder}" Tag="Рік2" />
-                        <Button Name="btnPlot2"  Content="Series2" VerticalAlignment="Top"  Height="30"
+                        <TextBox Name="txtYearPlot2" Style="{StaticResource placeHolder}" Tag="Year2" />
+                        <Button Name="btnPlot2" Background="Green" BorderBrush="White"  Content="Series2" VerticalAlignment="Top"  Height="30"
                         Command="{Binding MakePlot2}"
                         CommandParameter="{Binding Text, ElementName=txtYearPlot2}"/>
                     </StackPanel>
@@ -300,7 +300,7 @@
             </GroupBox>
 
 
-            <GroupBox Header="Yers with extream drought" Margin="10" VerticalAlignment="Stretch"  Grid.Column="1" Grid.Row="1">
+            <GroupBox Header="Years with extream drought" Margin="10" VerticalAlignment="Stretch"  Grid.Column="1" Grid.Row="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.30*"></RowDefinition>
@@ -312,8 +312,8 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Name="txtPercentDrought" Style="{StaticResource placeHolder}" Tag="0% - 100%" Margin="5,0"/>
-                        <Button Grid.Column="1" Name="btnGetDrought" Content="Дані" Command="{Binding GetDroughtYear}">
+                        <TextBox Grid.Column="0" Height="25" Name="txtPercentDrought" Style="{StaticResource placeHolder}" Tag="0% - 100%" Margin="5,0"/>
+                        <Button Grid.Column="1" Height="25" Name="btnGetDrought" Content="Data" Command="{Binding GetDroughtYear}">
                             <Button.CommandParameter>
                                 <MultiBinding Converter="{StaticResource MyMultiConverter}">
                                     <Binding Path="Text" ElementName="txtPercentDrought"/>
@@ -358,7 +358,7 @@
        
 
 
-        <ProgressBar x:Name="ProgressBar" Grid.Column="1"  Grid.Row="0"  VerticalAlignment="Top" Height="20" Minimum="0" Maximum="100" Value="0"  />
+        <ProgressBar x:Name="ProgressBar" Grid.Column="1"  Grid.Row="0"  VerticalAlignment="Top" Height="20" Minimum="0" Maximum="100" Value="{Binding ProgressValue}"  />
         <DataGrid x:Name="DataGridXaml"  Grid.Column="1"  Grid.Row="0" Margin="0,30,0,0" ItemsSource="{Binding VHIData}"/>
         <DataGrid x:Name="DataGridXamlPercetage"  Grid.Column="1"  Grid.Row="1" AutoGenerateColumns="False" Margin="0,5,0,0" ItemsSource="{Binding VHIDataPercentage}">
             <DataGrid.Columns>

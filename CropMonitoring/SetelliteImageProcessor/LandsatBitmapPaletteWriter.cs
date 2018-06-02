@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace CropMonitoring.SetelliteImageProcessor
 {
-    class LandsatBitmapPaletteWriter : LandsatImageProcessor1
+    class LandsatBitmapPaletteWriter : LandsatImageProcessor
     {
 
         protected override void SaveBitmapGrayBuffered(Dataset ds, Dataset nirDataset, string filename, int iOverview)

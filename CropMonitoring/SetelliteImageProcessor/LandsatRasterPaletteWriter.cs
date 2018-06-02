@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace CropMonitoring.SetelliteImageProcessor
 {
-    class LandsatRasterPaletteWriter : LandsatImageProcessor1
+    class LandsatRasterPaletteWriter : LandsatImageProcessor
     {
         protected override void SaveBitmapGrayBuffered(Dataset ds, Dataset nirDataset, string filename, int iOverview)
         {
@@ -30,9 +30,9 @@ namespace CropMonitoring.SetelliteImageProcessor
 
             byte[] r = new byte[width * height];
             byte[] nir = new byte[width * height];
-            //byte[] r1 = new byte[width * height];
-            //byte[] b1 = new byte[width * height];
-            //byte[] g1 = new byte[width * height];
+            byte[] r1 = new byte[width * height];
+            byte[] b1 = new byte[width * height];
+            byte[] g1 = new byte[width * height];
             band.ReadRaster(0, 0, width, height, r, width, height, 0, 0);
             nirBand.ReadRaster(0, 0, width, height, nir, width, height, 0, 0);
 
@@ -56,31 +56,31 @@ namespace CropMonitoring.SetelliteImageProcessor
                         {
                             ndvi = up / low;
                         }
-                        //Color color = SetColor2(ndvi);
-                        //r1[i + j * width] = color.R;
-                        //b1[i + j * width] = color.B;
-                        //g1[i + j + width] = color.G;
+                        Color color = SetColor(ndvi);
+                        r1[i + j * width] = color.R;
+                        b1[i + j * width] = color.B;
+                        g1[i + j + width] = color.G;
                         //bitmap.SetPixel(i, j, SetColor(ndvi));
-                        bitmap.SetPixel(i, j, SetColor(ndvi));
+                        //bitmap.SetPixel(i, j, SetColor(ndvi));
                     }
                 }
 
-                //Dataset outRaster = Gdal.GetDriverByName("GTiff").Create(filename, width, height, 3, DataType.GDT_Byte, null);
-                //double[] geoTransformerData = new double[6];
-                //ds.GetGeoTransform(geoTransformerData);
-                //outRaster.SetGeoTransform(geoTransformerData);
-                //outRaster.SetProjection(ds.GetProjection());
+                Dataset outRaster = Gdal.GetDriverByName("GTiff").Create(filename, width, height, 3, DataType.GDT_Byte, null);
+                double[] geoTransformerData = new double[6];
+                ds.GetGeoTransform(geoTransformerData);
+                outRaster.SetGeoTransform(geoTransformerData);
+                outRaster.SetProjection(ds.GetProjection());
 
-                //outRaster.GetRasterBand(1).WriteRaster(0, 0, width, height, r1, width, height, 0, 0);
-                //outRaster.GetRasterBand(2).WriteRaster(0, 0, width, height, b1, width, height, 0, 0);
-                //outRaster.GetRasterBand(3).WriteRaster(0, 0, width, height, g1, width, height, 0, 0);
-                //outRaster.FlushCache();
+                outRaster.GetRasterBand(1).WriteRaster(0, 0, width, height, r1, width, height, 0, 0);
+                outRaster.GetRasterBand(2).WriteRaster(0, 0, width, height, b1, width, height, 0, 0);
+                outRaster.GetRasterBand(3).WriteRaster(0, 0, width, height, g1, width, height, 0, 0);
+                outRaster.FlushCache();
             }
             catch (Exception e)
             {
 
             }
-            bitmap.Save(filename);
+           // bitmap.Save(filename);
         }
 
         protected override Color SetColor(double ndvi)

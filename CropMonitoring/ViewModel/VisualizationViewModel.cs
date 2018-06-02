@@ -11,18 +11,17 @@ using CropMonitoring.Helpers;
 using System.IO;
 using CropMonitoring.Graphics;
 using System.Collections.ObjectModel;
+using CropMonitoring.UserNotify;
 
 
 namespace CropMonitoring.ViewModel
 {
     class VisualizationViewModel:ViewModelBase
     {
+        INotifyUser notify = new NotifyMessage();
         private Svg.SvgDocument svgDocument;
         private string selectedPath = @"D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\Images\ukraineHigh.svg";
         
-       
-
-
         BitmapImage _bitmapImage;
         public BitmapImage BitmapImage
         {
@@ -138,8 +137,21 @@ namespace CropMonitoring.ViewModel
             var items = (Tuple<string, string>)parameter;
             int year = 0;
             int week = 0;
-            if(Int32.TryParse(items.Item1,out year)&&Int32.TryParse(items.Item2,out week))
+
+           
+
+            if (Int32.TryParse(items.Item1,out year)&&Int32.TryParse(items.Item2,out week))
             {
+                if (year < 1981 || year > 2018)
+                {
+                    notify.Message("Year should be in range of 1981 to 2018");
+                    return;
+                }
+                if (week < 1 || week > 52)
+                {
+                    notify.Message("Week should be in range 1 to 52");
+                    return;
+                }
                 MapColorWorker mapWorker = new MapColorWorker();
                 Dictionary<int, string> provinces = InitialProvinces.GetProvinces();
                 foreach (KeyValuePair<int, string> item in provinces)

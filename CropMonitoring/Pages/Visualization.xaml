@@ -20,7 +20,38 @@
             <Setter Property="Margin" Value="0,2"/>
         </Style>
 
-       
+        <!-- TextBox Placeholder -->
+        <Style x:Key="placeHolder" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <TextBox Text="{Binding Path=Text,
+                                                RelativeSource={RelativeSource TemplatedParent}, 
+                                                Mode=TwoWay,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="textSource" 
+                                 Background="Transparent" 
+                                 Panel.ZIndex="2" />
+                            <TextBox Text="{TemplateBinding Tag}" Background="{TemplateBinding Background}" Panel.ZIndex="1">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </UserControl.Resources>
     
@@ -85,8 +116,8 @@
 
                     <GroupBox Grid.Row="1" Header="By specific data" BorderBrush="Black" BorderThickness="2">
                         <StackPanel>
-                            <TextBox Name="txtYear"/>
-                            <TextBox Name="txtWeek" />
+                            <TextBox Name="txtYear" Style="{StaticResource placeHolder}" Tag="Year"/>
+                            <TextBox Name="txtWeek" Style="{StaticResource placeHolder}" Tag="Week" />
                             <Button Name="btnOk" Content="OK" Command="{Binding FillAreaByWeek}">
                                 <Button.CommandParameter>
                                     <MultiBinding Converter="{StaticResource YearWeekConverter}">

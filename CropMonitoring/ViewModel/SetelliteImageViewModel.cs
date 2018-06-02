@@ -9,11 +9,13 @@ using System.Windows.Input;
 using CropMonitoring.SetelliteImageProcessor;
 using System.Threading;
 using System.Windows.Media.Imaging;
+using CropMonitoring.UserNotify;
 
 namespace CropMonitoring.ViewModel
 {
     class SetelliteImageViewModel : ViewModelBase
     {
+        INotifyUser notify = new NotifyMessage();
         SetelliteImageAccess imageAccess = new SetelliteImageAccess();
 
         List<string> _imageFiles;
@@ -24,6 +26,10 @@ namespace CropMonitoring.ViewModel
                 if (_imageFiles == null)
                     return imageAccess.GetInputImageFiles();
                 return _imageFiles;
+            }
+            set
+            {
+                _imageFiles = value;
             }
         }
 
@@ -58,6 +64,32 @@ namespace CropMonitoring.ViewModel
             }
         }
 
+        bool _isButtonBlocked1;
+        public bool IsButtonBlocked1
+        {
+            get
+            {
+                return _isButtonBlocked1;
+            }
+            set
+            {
+                _isButtonBlocked1 = value;
+            }
+        }
+
+        bool _isButtonBlocked2;
+        public bool IsButtonBlocked2
+        {
+            get
+            {
+                return _isButtonBlocked2;
+            }
+            set
+            {
+                _isButtonBlocked2 = value;
+            }
+        }
+
         #region Async handle image
         RelayCommand _calculateNDVI;
         public ICommand CalculateNDVI
@@ -65,15 +97,19 @@ namespace CropMonitoring.ViewModel
             get
             {
                 if (_calculateNDVI == null)
+                {
+                   
                     return new RelayCommand(CalculateNDVIImageCommand, CanCalculateNDVIImageCommand);
+                }
                 return _calculateNDVI;
             }
         }
         public async void CalculateNDVIImageCommand(object parameter)
         {
-
+            IsButtonBlocked1 = true;
+            OnPropertyChanged("IsButtonBlocked1");
             var bands = imageAccess.GetBandsPath(_selectedFileName);
-            LandsatImageProcessor1 imgProc = new LandsatBitmapPaletteWriter();
+            LandsatImageProcessor imgProc = new LandsatBitmapPaletteWriter();
             imgProc.statusEvent += ImgProc_statusEvent;
 
             if (bands.band3 != null && bands.band4 != null && bands.outImg != null)
@@ -82,15 +118,16 @@ namespace CropMonitoring.ViewModel
                 imgProc.CalculateNDVI(bands.band3, bands.band4, bands.outImg)
                 );
                 NDVIImageList = imageAccess.GetOutputImageFiles();
-                OnPropertyChanged("NDVIImageList");
+                OnPropertyChanged("NDVIImageList");           
             }
-
-
+            IsButtonBlocked1 = false;
+            OnPropertyChanged("IsButtonBlocked1");
+            notify.Message("The" + _selectedFileName + "  was processed");
         }
 
         public bool CanCalculateNDVIImageCommand(object parameter)
         {
-            if (_selectedFileName == null)
+            if (_selectedFileName == null||IsButtonBlocked1==true)
                 return false;
             return true;
         }
@@ -128,9 +165,10 @@ namespace CropMonitoring.ViewModel
         }
         public async void CalculateNDVIImageCommand2(object parameter)
         {
-
+            IsButtonBlocked2 = true;
+            OnPropertyChanged("IsButtonBlocked2");
             var bands = imageAccess.GetBandsPath(_selectedFileName);
-            LandsatImageProcessor1 imgProc2 = new LandsatRasterPaletteWriter();
+            LandsatImageProcessor imgProc2 = new LandsatRasterPaletteWriter();
             imgProc2.statusEvent += ImgProc_statusEvent2;
 
             if (bands.band3 != null && bands.band4 != null && bands.outImg != null)
@@ -141,13 +179,14 @@ namespace CropMonitoring.ViewModel
                 NDVIImageList = imageAccess.GetOutputImageFiles();
                 OnPropertyChanged("NDVIImageList");
             }
-
-
+            IsButtonBlocked2 = false;
+            OnPropertyChanged("IsButtonBlocked2");
+            notify.Message("The" + _selectedFileName + "  was processed");
         }
 
         public bool CanCalculateNDVIImageCommand2(object parameter)
         {
-            if (_selectedFileName == null)
+            if (_selectedFileName == null||IsButtonBlocked2==true)
                 return false;
             return true;
         }
@@ -206,13 +245,13 @@ namespace CropMonitoring.ViewModel
         }
 
         RelayCommand _deleteImage;
-        public ICommand DeleteCommand
+        public ICommand DeleteImage
         {
             get
             {
-                if (_deleteImage == null)
+                if (_deleteNDVIImage == null)
                     return new RelayCommand(DeleteImageCommand, CanDeleteImageCommand);
-                return _deleteImage;
+                return _deleteNDVIImage;
             }
 
         }
@@ -222,13 +261,62 @@ namespace CropMonitoring.ViewModel
 
             BitmapImage = null;
             OnPropertyChanged("BitmapImage");
-            imageAccess.DeleteImage(_selectedNDVIImage);
-            OnPropertyChanged("NDVIImageList");
+            imageAccess.DeleteInputImage(_selectedFileName);
+            OnPropertyChanged("ImageFiles");
         }
         public bool CanDeleteImageCommand(object parameter)
         {
             return true;
         }
+
+
+        RelayCommand _deleteNDVIImage;
+        public ICommand DeleteNDVICommand
+        {
+            get
+            {
+                if (_deleteNDVIImage == null)
+                    return new RelayCommand(DeleteNDVIImageCommand, CanDeleteNDVIImageCommand);
+                return _deleteNDVIImage;
+            }
+
+        }
+
+        public void DeleteNDVIImageCommand(object parameter)
+        {
+
+            BitmapImage = null;
+            OnPropertyChanged("BitmapImage");
+            imageAccess.DeleteNDVIImage(_selectedNDVIImage);
+            OnPropertyChanged("NDVIImageList");
+        }
+        public bool CanDeleteNDVIImageCommand(object parameter)
+        {
+            return true;
+        }
+
+        RelayCommand _selectImage;
+        public ICommand SelectCommand
+        {
+            get
+            {
+                if (_deleteNDVIImage == null)
+                    return new RelayCommand(SelectImageCommand, CanSelectImageCommand);
+                return _deleteNDVIImage;
+            }
+
+        }
+
+        public void SelectImageCommand(object parameter)
+        {
+            BitmapImage = imageAccess.GetBitmapNDVIImage(_selectedNDVIImage);
+            OnPropertyChanged("BitmapImage");
+        }
+        public bool CanSelectImageCommand(object parameter)
+        {
+            return true;
+        }
+
 
 
         RelayCommand _refreshLists;
@@ -245,9 +333,33 @@ namespace CropMonitoring.ViewModel
         public void RefreshListCommand(object parameter)
         {
             _ndviImageList = imageAccess.GetOutputImageFiles();
+            //_imageFiles = imageAccess.GetInputImageFiles();
+            //OnPropertyChanged("ImageFiles");
             OnPropertyChanged("NDVIImageList");
         }
         public bool CanRefreshList(object parameter)
+        {
+            return true;
+        }
+
+        RelayCommand _openImages;
+        public ICommand OpenImages
+        {
+            get
+            {
+                if (_deleteNDVIImage == null)
+                    return new RelayCommand(OpenImagesCommand, CanOpenImagesCommand);
+                return _deleteNDVIImage;
+            }
+
+        }
+
+        public void OpenImagesCommand(object parameter)
+        {
+            imageAccess.OpenImages();
+            OnPropertyChanged("ImageFiles");
+        }
+        public bool CanOpenImagesCommand(object parameter)
         {
             return true;
         }

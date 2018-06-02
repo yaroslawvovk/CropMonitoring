@@ -9,13 +9,13 @@ using System.Windows.Media.Imaging;
 
 namespace CropMonitoring.Model
 {
-    class SetelliteImageAccess: IDisposable
+    class SetelliteImageAccess : IDisposable
     {
         private static List<string> files;
         private const string folderPath = "D:\\SetelliteImages";
         private const string folderOutPath = "D:\\OutputSetelliteImages";
 
-        public  List<string> GetInputImageFiles()
+        public List<string> GetInputImageFiles()
         {
             if (Directory.Exists(folderPath))
             {
@@ -32,7 +32,7 @@ namespace CropMonitoring.Model
             }
             return files;
         }
-        public  List<string> GetOutputImageFiles()
+        public List<string> GetOutputImageFiles()
         {
             if (Directory.Exists(folderOutPath))
             {
@@ -49,7 +49,6 @@ namespace CropMonitoring.Model
             }
             return files;
         }
-
         public string GetImageFile(string fileName)
         {
             string concpath = folderPath + "\\" + fileName;
@@ -60,7 +59,7 @@ namespace CropMonitoring.Model
             return null;
         }
         public BitmapImage GetBitmapImage(string fileName)
-        {          
+        {
             string concpath = folderPath + "\\" + fileName;
             try
             {
@@ -80,7 +79,6 @@ namespace CropMonitoring.Model
             }
             return null;
         }
-        
         public string GetNDVIImage(string fileName)
         {
             string concpath = folderOutPath + "\\" + fileName;
@@ -90,7 +88,6 @@ namespace CropMonitoring.Model
             }
             return null;
         }
-
         public BitmapImage GetBitmapNDVIImage(string fileName)
         {
             string concpath = folderOutPath + "\\" + fileName;
@@ -110,14 +107,13 @@ namespace CropMonitoring.Model
             {
 
             }
-            
+
             return null;
         }
 
-
-        public bool DeleteImage(string fileName)
+        public bool DeleteInputImage(string fileName)
         {
-            string concpath = folderOutPath + "\\" + fileName;
+            string concpath = Path.Combine(folderPath, fileName);
             if (File.Exists(concpath))
             {
                 try
@@ -133,8 +129,24 @@ namespace CropMonitoring.Model
             return false;
 
         }
+        public bool DeleteNDVIImage(string fileName)
+        {
+            string concpath = Path.Combine(folderOutPath, fileName);
+            if (File.Exists(concpath))
+            {
+                try
+                {
+                    File.Delete(concpath);
+                    return true;
+                }
+                catch (Exception e)
+                {
 
+                }
+            }
+            return false;
 
+        }
         public (string band3, string band4, string outImg) GetBandsPath(string bandPath)
         {
             string[] parts = bandPath.Split('_');
@@ -170,6 +182,31 @@ namespace CropMonitoring.Model
             }
 
             return (b3, b4, _out);
+        }
+        public void OpenImages()
+        {
+            MoveImagesToWorkDirectory();
+        }
+        private void MoveImagesToWorkDirectory()
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.Multiselect = true;
+            dialog.Filter = "TIF Files (*.Tif)|*.Tif";
+            Nullable<bool> result = dialog.ShowDialog();
+            if (result == true)
+            {
+                foreach (string image in dialog.FileNames)
+                {
+                    string fileName = Path.GetFileName(image);
+                    string destFile = Path.Combine(folderPath, fileName);
+                    File.Copy(image, destFile, true);
+                }
+            }
+
         }
 
         public void Dispose()

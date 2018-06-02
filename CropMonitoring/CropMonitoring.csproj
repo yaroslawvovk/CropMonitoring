@@ -95,19 +95,21 @@
     </Compile>
     <Compile Include="DataWorkers\DroughtDataWorker.cs" />
     <Compile Include="DataWorkers\VHIDataWorker.cs" />
-    <Compile Include="Downloaders\Loader1.cs" />
-    <Compile Include="Downloaders\VHIDataLoader1.cs" />
+    <Compile Include="Downloaders\Loader.cs" />
+    <Compile Include="Downloaders\VHIDataLoader.cs" />
+    <Compile Include="Downloaders\VHIPercentageLoader.cs" />
     <Compile Include="GdalConfiguration.cs" />
+    <Compile Include="Graphics\CircularProgress.cs" />
     <Compile Include="Graphics\MapColorWorker.cs" />
     <Compile Include="Graphics\SVGParser.cs" />
-    <Compile Include="Helpers\CircularProgress.cs" />
+    <Compile Include="Graphics\ZoomBorder.cs" />
     <Compile Include="Helpers\ComboboxData.cs" />
     <Compile Include="Helpers\DoubleToPctConverter.cs" />
     <Compile Include="Helpers\DroughtConverter.cs" />
     <Compile Include="Helpers\InitialComboBox.cs" />
+    <Compile Include="Helpers\OutputDirectoryCreator.cs" />
     <Compile Include="Helpers\PlotSeriesWorker.cs" />
     <Compile Include="Helpers\YearWeekConverter.cs" />
-    <Compile Include="Helpers\ZoomBorder.cs" />
     <Compile Include="Model\Extremums.cs" />
     <Compile Include="Model\SetelliteImageAccess.cs" />
     <Compile Include="Model\VHIDataPercentage.cs" />
@@ -121,8 +123,9 @@
     </Compile>
     <Compile Include="SetelliteImageProcessor\LandsatBitmapPaletteWriter.cs" />
     <Compile Include="SetelliteImageProcessor\LandsatImageProcessor.cs" />
-    <Compile Include="SetelliteImageProcessor\LandsatImageProcessor1.cs" />
     <Compile Include="SetelliteImageProcessor\LandsatRasterPaletteWriter.cs" />
+    <Compile Include="UserNotify\INotifyUser.cs" />
+    <Compile Include="UserNotify\NotifyMessage.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\SetelliteImageViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -131,18 +134,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Downloaders\Loader.cs" />
-    <Compile Include="Downloaders\VHIDataLoader.cs" />
-    <Compile Include="Downloaders\VHIPercentageLoader.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\BasicPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\SetelliteImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -153,9 +149,6 @@
     </Page>
     <Compile Include="Model\VHIData.cs" />
     <Compile Include="Model\VHIDataContext.cs" />
-    <Compile Include="Pages\BasicPage.xaml.cs">
-      <DependentUpon>BasicPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Settings\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>

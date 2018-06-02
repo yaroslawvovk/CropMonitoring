@@ -1,4 +1,5 @@
 ﻿using CropMonitoring.DataWorkers;
+using CropMonitoring.Downloaders;
 using CropMonitoring.Helpers;
 using CropMonitoring.Infrastructure;
 using CropMonitoring.Model;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CropMonitoring.UserNotify;
 
 namespace CropMonitoring.ViewModel
 {
@@ -23,6 +25,7 @@ namespace CropMonitoring.ViewModel
 
     class HomeViewModel : ViewModelBase
     {
+        INotifyUser notify = new NotifyMessage();
         ObservableCollection<VHIData> _vhiData;
         public ObservableCollection<VHIData> VHIData
         {
@@ -121,8 +124,12 @@ namespace CropMonitoring.ViewModel
             try
             {
                 int year = Convert.ToInt32(parameter);
-                if (year >= 1981 && year <= 2018)
-                    Extremums = _dataWorker.GetExtremums(year, VHIData);
+                if (year < 1981 || year > 2018)
+                {
+                    notify.Message("Year should be in range of 1981 to 2018");
+                    return;
+                }
+                Extremums = _dataWorker.GetExtremums(year, VHIData);
             }
             catch (Exception)
             {
@@ -173,6 +180,11 @@ namespace CropMonitoring.ViewModel
             try
             {
                 int year = Convert.ToInt32(parameter);
+                if (year < 1981 || year > 2018)
+                {
+                    notify.Message("Year should be in range of 1981 to 2018");
+                    return;
+                }
                 List<VHIData> vhiList = VHIData.ToList<VHIData>();
                 DataSeries = seriesWorker.GetSeries(vhiList, year).Select(x => new DataPoint(x.Rx, x.Ry)).ToArray();
             }
@@ -226,6 +238,11 @@ namespace CropMonitoring.ViewModel
             try
             {
                 int year = Convert.ToInt32(parameter);
+                if (year < 1981 || year > 2018)
+                {
+                    notify.Message("Year should be in range of 1981 to 2018");
+                    return;
+                }
                 List<VHIData> vhiList = VHIData.ToList<VHIData>();
                 DataSeries2 = seriesWorker.GetSeries(vhiList, year).Select(x => new DataPoint(x.Rx, x.Ry)).ToArray();
             }
@@ -304,6 +321,11 @@ namespace CropMonitoring.ViewModel
             bool isModerate = false;
             if (Int32.TryParse(param.Item1, out percent))
             {
+                if (percent < 0 || percent > 100)
+                {
+                    notify.Message("Percent should be in range 0% - 100%");
+                    return;
+                }
                 DroughtDataWorker dWorker = new DroughtDataWorker();
                 isModerate = param.Item2;
                 CombData = !isModerate ? dWorker.GetExtreamYears(VHIDataPercentage, VHIData, percent) : dWorker.GetModerateYears(VHIDataPercentage, VHIData, percent);
@@ -345,10 +367,26 @@ namespace CropMonitoring.ViewModel
             }
         }
 
+        int _progressValue;
+        public int ProgressValue
+        {
+            get
+            {
+                if (_progressValue == 0)
+                    return _progressValue;
+                return _progressValue;
+            }
+            set
+            {
+                _progressValue = value;
+            }
+        }
+
+
         RelayCommand _downloadData;
         public ICommand DownloadData
         {
-           get
+            get
             {
                 if (_downloadData == null)
                     return new RelayCommand(DownloadDataAsync, CanDownloadDataAsync);
@@ -356,14 +394,46 @@ namespace CropMonitoring.ViewModel
             }
         }
 
+        bool _isButtonBlocked;
+        public bool IsButtonBlocked
+        {
+            get
+            {
+                return _isButtonBlocked;
+            }
+            set
+            {
+                _isButtonBlocked = value;
+            }
+        }
+
         public async void DownloadDataAsync(object parameter)
         {
-            await load.DownloadAndSaveData(_value, _key);
-            await load2.DownloadAndSaveData(_value, _key);
+            IsButtonBlocked = true;
+            OnPropertyChanged("IsButtonBlocked");
+            ProgressValue = 0;
+            OnPropertyChanged("ProgressValue");
+            Loader load1 = new VHIDataLoader();
+            Loader load2 = new VHIPercentageLoader();
+            load1.statusEvent += Load1_statusEvent;
+            load2.statusEvent += Load1_statusEvent;
+            string id = _selectedComBoxValue.ToString();
+            await load1.DownloadAndSaveData(_selectedComBoxText, id);
+            await load2.DownloadAndSaveData(_selectedComBoxText, id);
+            IsButtonBlocked = false;
+            OnPropertyChanged("IsButtonBlocked");
+
         }
+
+        private void Load1_statusEvent(object sender, ThresholdReachedEventArgs e)
+        {
+            ProgressValue = e.Status;
+            OnPropertyChanged("ProgressValue");
+        }
+
         public bool CanDownloadDataAsync(object parameter)
         {
-            if (_selectedComBoxValue != null && _selectedComBoxText != null)
+            if (_selectedComBoxValue != null && _selectedComBoxText != null && IsButtonBlocked == false)
                 return true;
             return false;
         }
