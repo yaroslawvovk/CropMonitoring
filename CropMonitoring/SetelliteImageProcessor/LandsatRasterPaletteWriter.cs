@@ -35,7 +35,8 @@ namespace CropMonitoring.SetelliteImageProcessor
             byte[] g1 = new byte[width * height];
             band.ReadRaster(0, 0, width, height, r, width, height, 0, 0);
             nirBand.ReadRaster(0, 0, width, height, nir, width, height, 0, 0);
-
+            int counter = 0;
+            double comule = 0;
             int i, j;
             double ndvi = 0;
             int progressScale = width / 100;
@@ -56,6 +57,14 @@ namespace CropMonitoring.SetelliteImageProcessor
                         {
                             ndvi = up / low;
                         }
+
+                        if (ndvi > 0)
+                        {
+                            counter++;
+                            comule += ndvi;
+                        }
+
+
                         Color color = SetColor(ndvi);
                         r1[i + j * width] = color.R;
                         b1[i + j * width] = color.B;
@@ -65,6 +74,8 @@ namespace CropMonitoring.SetelliteImageProcessor
                     }
                 }
 
+                double result = comule / counter;
+                int a = 20;
                 Dataset outRaster = Gdal.GetDriverByName("GTiff").Create(filename, width, height, 3, DataType.GDT_Byte, null);
                 double[] geoTransformerData = new double[6];
                 ds.GetGeoTransform(geoTransformerData);

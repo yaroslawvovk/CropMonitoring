@@ -132,15 +132,15 @@ namespace CropMonitoring.SetelliteImageProcessor
             }
             else if (ndvi > 0.7 && ndvi <= 0.8)
             {
-                return Color.Red;
+                return Color.OrangeRed;
             }
             else if (ndvi > 0.8 && ndvi <= 0.9)
             {
-                return Color.OrangeRed;
+                return Color.Red;
             }
             else if (ndvi > 0.9 && ndvi <= 1)
             {
-                return Color.OrangeRed;
+                return Color.Red;
             }
             return Color.Black;
         }
