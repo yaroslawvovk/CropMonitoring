@@ -67,3 +67,5 @@ D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitorin
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.exe
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.pdb
 D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\CropMonitoring.csprojResolveAssemblyReference.cache
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\Forecast.baml
+D:\Projects\CropMonitoring\CropMonitoring\CropMonitoring\obj\Debug\Pages\Forecast.g.cs

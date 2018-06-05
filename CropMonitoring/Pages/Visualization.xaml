@@ -70,16 +70,16 @@
             </Grid.ColumnDefinitions>
 
             <Rectangle Grid.Column="0" Fill="#991515"/>
-            <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Text="Drought, the intensity of  which &#x0a; from average to extraordinary" Foreground="White" />
+            <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Text="Drought, the intensity of  which &#x0a; from average to extraordinary VHI&lt;15" Foreground="White" />
 
             <Rectangle Grid.Column="1" Fill="#c68501"/>
-            <TextBlock Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" Text="Drought, the intensity of which from  &#x0a; moderate to extreme" Foreground="White" />
+            <TextBlock Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" Text="Drought, the intensity of which from  &#x0a; moderate to extreme VHI&lt;35" Foreground="White" />
 
             <Rectangle Grid.Column="2" Fill="#b2c601"/>
-            <TextBlock Grid.Column="2" TextAlignment="Center" VerticalAlignment="Center" Text="Stress conditions" Foreground="White" />
+            <TextBlock Grid.Column="2" TextAlignment="Center" VerticalAlignment="Center" Text="Stress conditions VHI&lt;40" Foreground="White" />
 
             <Rectangle Grid.Column="3" Fill="#13a326"/>
-            <TextBlock Grid.Column="3" TextAlignment="Center" VerticalAlignment="Center" Text="Favorable conditions" Foreground="White" />
+            <TextBlock Grid.Column="3" TextAlignment="Center" VerticalAlignment="Center" Text="Favorable conditions VHI>60" Foreground="White" />
 
         </Grid>
         
@@ -96,7 +96,7 @@
                         <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
                     
-                    <GroupBox Grid.Row="0" Header="Situation" BorderBrush="Black" BorderThickness="2">
+                    <GroupBox Grid.Row="0" Header="List" BorderBrush="Black" BorderThickness="2">
                         <ListBox x:Name="listboxFolder1"  BorderThickness="0" 
                         ItemsSource="{Binding YearWeek}" SelectedValue="week" SelectedItem="{Binding SelectedYearWeek, Mode=TwoWay}" >
                             <ListBox.ItemTemplate>

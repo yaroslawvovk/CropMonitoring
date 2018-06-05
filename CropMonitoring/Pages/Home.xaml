@@ -335,7 +335,7 @@
         </Grid>
         <!--Plot -->
         <Grid Grid.Column="0" Grid.Row="1">
-            <oxy:Plot Title="VHI BY YEAR">
+            <oxy:Plot Title="VHI BY YEARS">
                 <oxy:Plot.Series>
                     <oxy:LineSeries Title=""
                             ItemsSource="{Binding DataSeries}"

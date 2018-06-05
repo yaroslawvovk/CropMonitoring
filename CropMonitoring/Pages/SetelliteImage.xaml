@@ -177,7 +177,7 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="3" Header="Input images" BorderBrush="Black" BorderThickness="2">
+                    <GroupBox Grid.Row="3" Header="Output NDVI images" BorderBrush="Black" BorderThickness="2">
                         <ListBox x:Name="lsBoxOutputImages"  BorderThickness="0" ItemsSource="{Binding NDVIImageList}" SelectedItem="{Binding SelectedNDVIImage}">
                             <ListBox.ContextMenu>
                                 <ContextMenu>

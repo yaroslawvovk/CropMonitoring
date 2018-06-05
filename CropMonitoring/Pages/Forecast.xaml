@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="CropMonitoring.Pages.Forecast"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="1" Header="Plot" BorderBrush="Black" BorderThickness="2">
+            <oxy:Plot  Title="NDVI BY YEARS">
+                <oxy:Plot.Series>
+                    <oxy:LineSeries Title=""
+                            ItemsSource="{Binding DataSeries}"
+                                Color="Black" />
+                </oxy:Plot.Series>
+                <oxy:Plot.Axes>
+                    <oxy:LinearAxis Title="Year"
+                            MajorGridlineStyle="Dash"
+                            Position="Bottom" />
+                    <oxy:LinearAxis Title="NDVI"
+                            MajorGridlineStyle="Dash"
+                            Position="Left" />
+                </oxy:Plot.Axes>
+            </oxy:Plot>
+        </GroupBox>
+        
+        
+
+        <Grid Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.15*"></ColumnDefinition>
+                <ColumnDefinition Width="0.22*"></ColumnDefinition>
+                <ColumnDefinition Width="0.55*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Header="Files with Average NDVI" BorderBrush="Black" BorderThickness="2">
+                <ListBox x:Name="lsBoxInputImages"  BorderThickness="0" 
+                        ItemsSource="{Binding FileNames}" SelectedItem="{Binding SelectedNDVIFile}">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Remove"
+                                        Command="{Binding DeleteNDVICommand}" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Header="Calendar"  BorderBrush="Black" BorderThickness="2">
+                <Calendar Name="dteSelectedMonth" DisplayMode="Year"  SelectedDate="{Binding DTime}"   />
+            </GroupBox>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.25*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.3*" ></ColumnDefinition>
+                        <ColumnDefinition ></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Grid.Column="0" Header="Make forecast" BorderBrush="Black" BorderThickness="2">
+                        <Button  Content="Forecast" Command="{Binding ForecastCommand}" ></Button>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Forecasted NDVI" BorderBrush="Black" BorderThickness="2">
+                        <TextBlock Grid.Column="1"  FontSize="20" Text="{Binding ResultString}"></TextBlock>
+                    </GroupBox>
+
+                    
+                </Grid>
+                
+            </Grid>
+           
+    
+
+
+        </Grid>
+        
+    </Grid>
+    
+    
+</UserControl>

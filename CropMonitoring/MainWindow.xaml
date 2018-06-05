@@ -16,6 +16,7 @@
                 <mui:Link DisplayName="Image Processing" Source="/Pages/SetelliteImage.xaml"/>
                 <mui:Link DisplayName="Vegetation Data" Source="/Pages/Home.xaml" />
                 <mui:Link DisplayName="Ukraine Map" Source="/Pages/Visualization.xaml"/>
+                <mui:Link DisplayName="Forecast NDVI" Source="/Pages/Forecast.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="settings" GroupKey="settings">

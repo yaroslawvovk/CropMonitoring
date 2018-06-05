@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OSGeo.GDAL;
 using System.Drawing.Imaging;
 
+
 namespace CropMonitoring.SetelliteImageProcessor
 {
     class LandsatRasterPaletteWriter : LandsatImageProcessor
@@ -36,7 +37,7 @@ namespace CropMonitoring.SetelliteImageProcessor
             band.ReadRaster(0, 0, width, height, r, width, height, 0, 0);
             nirBand.ReadRaster(0, 0, width, height, nir, width, height, 0, 0);
             int counter = 0;
-            double comule = 0;
+            double comulate = 0;
             int i, j;
             double ndvi = 0;
             int progressScale = width / 100;
@@ -61,7 +62,7 @@ namespace CropMonitoring.SetelliteImageProcessor
                         if (ndvi > 0)
                         {
                             counter++;
-                            comule += ndvi;
+                            comulate += ndvi;
                         }
 
 
@@ -74,8 +75,10 @@ namespace CropMonitoring.SetelliteImageProcessor
                     }
                 }
 
-                double result = comule / counter;
-                int a = 20;
+                double avgNDVI = comulate / counter;
+                CropMonitoring.Contracts.INDVIDataAccess ndviAccess = new Model.NDVIDataAccess();
+                ndviAccess.CreateNDVIFile(filename, avgNDVI);
+
                 Dataset outRaster = Gdal.GetDriverByName("GTiff").Create(filename, width, height, 3, DataType.GDT_Byte, null);
                 double[] geoTransformerData = new double[6];
                 ds.GetGeoTransform(geoTransformerData);
