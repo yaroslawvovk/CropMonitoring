@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace CropMonitoring.Model
     class SetelliteImageAccess : IDisposable
     {
         private static List<string> files;
+
+     
         private const string folderPath = "D:\\SetelliteImages";
         private const string folderOutPath = "D:\\OutputSetelliteImages";
 
@@ -131,6 +134,7 @@ namespace CropMonitoring.Model
         }
         public bool DeleteNDVIImage(string fileName)
         {
+           
             string concpath = Path.Combine(folderOutPath, fileName);
             if (File.Exists(concpath))
             {

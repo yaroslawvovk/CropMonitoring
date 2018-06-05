@@ -59,7 +59,9 @@ namespace CropMonitoring.Model
 
                     using (StreamReader sr = new StreamReader(filePath))
                     {
-                        double ndvi = double.Parse(sr.ReadLine(), CultureInfo.InstalledUICulture);
+                        string azaza = sr.ReadLine();
+                        //double ndvi = double.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("ru"));
+                        double ndvi = double.Parse(azaza);
                         string fileName1 = Path.GetFileName(filePath);
                         int year = int.Parse(fileName1.Substring(3, 4));
                         ndviList.Add(new NDVIData() { NDVI = ndvi, Year = year });

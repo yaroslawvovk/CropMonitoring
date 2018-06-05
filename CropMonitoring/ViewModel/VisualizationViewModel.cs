@@ -20,7 +20,7 @@ namespace CropMonitoring.ViewModel
     {
         INotifyUser notify = new NotifyMessage();
         private Svg.SvgDocument svgDocument;
-        private string selectedPath = @"D:\ukraineHigh.svg";
+        private string selectedPath = "ukraineHigh.svg";
         
         BitmapImage _bitmapImage;
         public BitmapImage BitmapImage
